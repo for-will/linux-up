@@ -33,5 +33,7 @@ hello:
 
 linux-bootsect:
 	nasm linux-0.12/bootsect.nasm -o bootsect.bin
+	nasm linux-0.12/setup.nasm -o setup.bin
 	dd if=bootsect.bin of=Image bs=512 count=1 conv=notrunc
+	dd if=setup.bin of=Image bs=512 seek=1 conv=notrunc
 	bochs -q -unlock

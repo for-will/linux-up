@@ -209,13 +209,13 @@ root_defined:
 ; after that (everything loaded), we jump to
 ; the setnup-routine loaded directly after
 ; the bootblock:
-        push dx
-        push cx
-        push bx
-        push ax
-        push 0x55aa
-        call print_all
-        hlt
+        ; push dx
+        ; push cx
+        ; push bx
+        ; push ax
+        ; push 0x55aa
+        ; call print_all
+        ; hlt
         jmp SETUPSEG:0
 
 ; This routine loads the system at address 0x10000, making sure

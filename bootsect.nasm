@@ -1,27 +1,73 @@
 BOOTSEQ  equ 0x7c0
 
+; do_test:
+;         ; in al, 0x64             ; 8042 status port      ; 读AT键盘控制状态寄存器。
+;         mov al, 1
+;         test al, 2 
+;         lea ax, [msg1]
+        ; lea cx, [go]
+        ; jmp cx
+        mov     ax, 0xf0
+        shl     al, 1
 jmp BOOTSEQ:go
 
 go:
+
+        ; dw 0x00eb, 0x00eb
+        ; jmp $+2
+        repe    cmpsb
+
         mov ax, cs
         mov ds, ax
         mov es, ax
         mov ss, ax
         mov sp, 0xfef4
 
-        mov dx, 0xdd
-        mov cx, 0xcc
-        mov bx, 0xbb
-        mov ax, 0xaa
-        ; add ax, 0xab
-        push dx
-        push cx
+        lea ax, msg1
+        call get_enter
+        push 0xffff
+        mov bp, sp
+        call print_nl
+        call print_hex
+        hlt
+
+get_enter:
+nokey:  in      al, 0x60        ; 读取键盘控制缓冲中的扫描码
+        mov     ah, 0
+        push    ax
+        mov     bp, sp
+        call    print_nl
+        call    print_hex
+        pop     ax
+        cmp     al, 0x82        ; 与最小断开码0x82比较。
+        jb      nokey           ; 若小于0x82，表示还没有松按键松开。
+        cmp     al, 0xe0
+        ja      nokey           ; 若大于 0xe0，表示收到的是扩展扫描码前缀。
+        cmp     al, 0x9c        ; 若断开码是0x9c表示用户按下/松开了回车键，
+        jnz     get_enter       ; 于是程序跳转去检查系统是否具有SVGA模式。
+        ; mov     ax, 0x019       ; 否则设置默认行列值 AL=25行、AH=80列。
+        ; pop     ds
+        ret
+
+; Get video card data
+        mov ah, 0x0f
+        int 0x10
         push bx
         push ax
+        mov bp, sp
+        call print_nl
+        call print_hex
+        add bp, 2
+        call print_nl
+        call print_hex
+
+; Get memory size (extended mem, kB) 
+        mov ah, 0x88
+        int 0x15
         push ax
-        stc
-        ; clc
-        call print_all
+        mov bp, sp
+        call print_nl
+        call print_hex
         hlt
 
 
