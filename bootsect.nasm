@@ -1,5 +1,9 @@
 BOOTSEQ  equ 0x7c0
 
+extern _print
+        
+        call _print
+
 ; do_test:
 ;         ; in al, 0x64             ; 8042 status port      ; 读AT键盘控制状态寄存器。
 ;         mov al, 1
@@ -7,21 +11,42 @@ BOOTSEQ  equ 0x7c0
 ;         lea ax, [msg1]
         ; lea cx, [go]
         ; jmp cx
-        mov     ax, 0xf0
-        shl     al, 1
-jmp BOOTSEQ:go
+        ; mov     ax, 0xf0
+        ; shl     al, 1
+
+; jmp BOOTSEQ:go
+        ; dq 0x00, 0x00
+        ; db 0x00
+
+        ; fninit
+        ; fstsw   ax
+        ; fsetpm
+        ; fplegacy
+
+        xor     eax, eax
+.1:     inc     eax
+        mov     [0x000000], eax
+        cmp     [0x100000], eax
+        je      .1
+
+align 4
+        db 0x11, 0x22, 0x33, 0x44
+; .1:      mov     ax, 0xbb
 
 go:
 
         ; dw 0x00eb, 0x00eb
         ; jmp $+2
-        repe    cmpsb
+        ; repe    cmpsb
+
+        jmp .1
 
         mov ax, cs
         mov ds, ax
         mov es, ax
         mov ss, ax
         mov sp, 0xfef4
+.1:      mov     bx, 0xff
 
         lea ax, msg1
         call get_enter
@@ -69,7 +94,6 @@ nokey:  in      al, 0x60        ; 读取键盘控制缓冲中的扫描码
         call print_nl
         call print_hex
         hlt
-
 
 int_1eh:
         push 0
@@ -121,7 +145,6 @@ test_jmp:
         mov ax, 0x11
         b:
         mov ax, 0x22
-
 
 ;
 ;   print_all is for debugging purpose.

@@ -37,3 +37,6 @@ linux-bootsect:
 	dd if=bootsect.bin of=Image bs=512 count=1 conv=notrunc
 	dd if=setup.bin of=Image bs=512 seek=1 conv=notrunc
 	bochs -q -unlock
+
+head.o: linux-0.12/head.nasm 
+	nasm -f elf32 -o head.o linux-0.12/head.nasm 
