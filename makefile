@@ -1,4 +1,16 @@
+AS	=nasm
+LD	=x86_64-elf-ld
+LDFLAGS	=-m elf_i386 -Ttext 0 -e startup_32
+CC	=x86_64-elf-gcc -m32 -march=i386
+CFLAGS	=-Wall -fomit-frame-pointer
+
 start: linux-bootsect
+
+build-system:
+	nasm -f elf32 -o head.o linux-0.12/head.nasm
+	$(CC) $(CFLAGS) -nostdinc -Iinclude -Wno-main -c -o main.o linux-0.12/init/main.c
+	$(LD) $(LDFLAGS) head.o main.o  -o system
+	x86_64-elf-objcopy -O binary -R .note -R .comment system kernel
 
 ubuntu:
 	nasm boot.S -o boot
@@ -31,12 +43,30 @@ hello:
 	dd if=bootsect.bin of=Image bs=512 count=1 conv=notrunc
 	bochs -q -unlock
 
-linux-bootsect:
+linux-bootsect: build-system
 	nasm linux-0.12/bootsect.nasm -o bootsect.bin
 	nasm linux-0.12/setup.nasm -o setup.bin
 	dd if=bootsect.bin of=Image bs=512 count=1 conv=notrunc
 	dd if=setup.bin of=Image bs=512 seek=1 conv=notrunc
+	dd if=kernel of=Image bs=512 seek=5 conv=notrunc
+# 	dd if=system of=Image bs=512 seek=5 conv=notrunc
 	bochs -q -unlock
 
 head.o: linux-0.12/head.nasm 
 	nasm -f elf32 -o head.o linux-0.12/head.nasm 
+
+main.o: linux-0.12/init/main.c 
+	$(CC) $(CFLAGS) \
+	-nostdinc -Iinclude -c -o $@ $<
+# 	x86_64-elf-gcc -O -Wall -fstrength-reduce -fomit-frame-pointer -c -o $@ $<
+# 	x86_64-elf-gcc -m32 -O -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -c -o main.o linux-0.12/init/main.c -Wno-main
+
+
+test:
+	x86_64-elf-gcc -m32 -O -Wall -fstrength-reduce -fomit-frame-pointer -nostdinc -c -o main.o linux-0.12/init/main.c
+
+ld-system:
+	x86_64-elf-ld -m elf_i386 -s -x head.o main.o -o system 
+# 	x86_64-elf-gcc -s -x -M head.o main.o -o system
+# 	x86_64-elf-ld -A elf32_i386 -m elf_i386 -e startup_32  -s -x head.o main.o -o system
+# 	x86_64-elf-ld -A elf32_i386 -m elf_i386 -s -x head.o main.o -o system

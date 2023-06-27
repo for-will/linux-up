@@ -185,7 +185,7 @@ end_move:
         dw      0x00eb, 0x00eb
         mov     al, 0x04        ; 8259-1 is master
         out     0x21, al        ; 送主芯片ICW3命令字，主芯片的IR2连从芯片 INT。
-        dw      0x00eb, 0xee0b
+        dw      0x00eb, 0x00eb
         mov     al, 0x02        ; 8259-2 is slave
         out     0xA1, al        ; 送从芯片ICW3命令字，表示从芯片的INT连到主芯片的IR2引脚上。
         dw      0x00eb, 0x00eb
