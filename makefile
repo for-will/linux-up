@@ -7,7 +7,7 @@ CFLAGS	=-Wall -fomit-frame-pointer
 start: linux-bootsect
 
 build-system:
-	nasm -f elf32 -o head.o linux-0.12/head.nasm
+	nasm -f elf32 -o head.o linux-0.12/boot/head.nasm
 	$(CC) $(CFLAGS) -nostdinc -Iinclude -Wno-main -c -o main.o linux-0.12/init/main.c
 	$(LD) $(LDFLAGS) head.o main.o  -o system
 	x86_64-elf-objcopy -O binary -R .note -R .comment system kernel

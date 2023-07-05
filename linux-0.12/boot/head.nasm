@@ -7,7 +7,7 @@
 
 section .text
 ; [global _idt, _gdt, _pg_dir, _tmp_floppy_area]
-extern stack_start, _start, printk
+extern stack_start, _main, printk
 global _idt, _gdt, _pg_dir, _tmp_floppy_area, startup_32
 _pg_dir:                                        ; 页目录将会存放在这里。
 
@@ -218,7 +218,7 @@ after_page_tables:
         push    0                       ; 这些是调用main程序的参数（指init/main.c）。
         push    0                       ; 其中的‘$’符号表示这是一个立即操作数。
         push    L6                      ; return address for main, if it decides to.
-        push    _start                  ; '_main'是编译程序时对main的内部表示方法。
+        push    _main                   ; '_main'是编译程序时对main的内部表示方法。
         jmp     setup_paging
 L6:
         jmp     L6                      ; main should never return here, but
