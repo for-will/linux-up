@@ -6,9 +6,13 @@
 #define __NR_setup	0	/* used only by init, to get system going */
 #define __NR_fork	2
 #define __NR_write	4
+#define __NR_open	5
+#define __NR_close	6
+#define __NR_execve	11
 #define __NR_pause	29
 #define __NR_sync	36
 #define __NR_dup	41
+#define __NR_setsid	66
 
 
 #define _syscall0(type,name) \

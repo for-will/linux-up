@@ -34,4 +34,5 @@ dep:
 mktime.s mktime.o: mktime.c ../include/time.h
 printk.s printk.o: printk.c
 sched.s sched.o: sched.c ../include/linux/sched.h ../include/linux/mm.h
+traps.s traps.o: traps.c
 vsprintf.s vsprintf.o: vsprintf.c ../include/stdarg.h

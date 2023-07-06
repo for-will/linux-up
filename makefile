@@ -4,13 +4,19 @@ LDFLAGS	=-m elf_i386 -Ttext 0 -e startup_32
 CC	=x86_64-elf-gcc -m32 -march=i386
 CFLAGS	=-Wall -fomit-frame-pointer
 
-start: linux-bootsect
+# start: linux-bootsect
 
-build-system:
-	nasm -f elf32 -o head.o linux-0.12/boot/head.nasm
-	$(CC) $(CFLAGS) -nostdinc -Iinclude -Wno-main -c -o main.o linux-0.12/init/main.c
-	$(LD) $(LDFLAGS) head.o main.o  -o system
-	x86_64-elf-objcopy -O binary -R .note -R .comment system kernel
+bochs:
+	x86_64-elf-objcopy -O binary -R .note -R .comment linux-0.12/tools/system kernel
+	nasm linux-0.12/boot/bootsect.nasm -o bootsect.bin
+	nasm linux-0.12/boot/setup.nasm -o setup.bin
+	dd if=bootsect.bin of=Image bs=512 count=1 conv=notrunc
+	dd if=setup.bin of=Image bs=512 seek=1 conv=notrunc
+	dd if=kernel of=Image bs=512 seek=5 conv=notrunc
+	bochs -q -unlock
+
+linux-0.12/tools/system:
+	(cd linux-0.12/tools/system;make)
 
 ubuntu:
 	nasm boot.S -o boot
@@ -49,7 +55,6 @@ linux-bootsect: build-system
 	dd if=bootsect.bin of=Image bs=512 count=1 conv=notrunc
 	dd if=setup.bin of=Image bs=512 seek=1 conv=notrunc
 	dd if=kernel of=Image bs=512 seek=5 conv=notrunc
-# 	dd if=system of=Image bs=512 seek=5 conv=notrunc
 	bochs -q -unlock
 
 head.o: linux-0.12/head.nasm 

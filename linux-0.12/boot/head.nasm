@@ -249,6 +249,7 @@ ignore_int:
         pop     edx
         pop     ecx
         pop     eax
+        xchg    bx, bx
         iret                            ; 中断返回（把中断调用时压入栈的CPU标志寄存器（32位）值也弹出）。
 
 

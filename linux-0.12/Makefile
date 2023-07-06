@@ -18,6 +18,9 @@ LIBS	=lib/lib.a
 	$(CC) $(CFLAGS) \
 	-nostdinc -Iinclude -c -o $@ $<
 
+all: tools/system
+
+
 build-system:
 	nasm -f elf32 -o head.o boot/head.nasm
 	$(CC) $(CFLAGS) -nostdinc -Iinclude -Wno-main -c -o main.o init/main.c
