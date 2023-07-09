@@ -19,7 +19,6 @@ blk_drv.a: $(OBJS)
 clean:
 	rm -f *.o *.a tmp_make
 	(for i in *.c;do rm -f `basename $$i .c`.s;done)
-	(cd blk_drv;make clean)
 
 dep:
 	sed '/\#\#\# Dependencies/q' < Makefile > tmp_make
