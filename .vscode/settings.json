@@ -2,6 +2,8 @@
         "files.associations": {
                 "cstdio": "c",
                 "*.tcc": "c",
-                "types.h": "c"
+                "types.h": "c",
+                "time.h": "c",
+                "unistd.h": "c"
         }
 }
