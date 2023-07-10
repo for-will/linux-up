@@ -150,8 +150,8 @@ static void time_init(void)
         BCD_TO_BIN(time.tm_sec);                // 转换成二进制数值。
         BCD_TO_BIN(time.tm_min);
         BCD_TO_BIN(time.tm_hour);
-        BCD_TO_BIN(time.tm_hour);
-        BCD_TO_BIN(time.tm_hour);
+        BCD_TO_BIN(time.tm_mday);
+        BCD_TO_BIN(time.tm_mon);
         BCD_TO_BIN(time.tm_year);
         time.tm_mon--;                          // tm_mon中月份范围是0--11。
         startup_time = kernel_mktime(&time);    // 计算开机时间。kernel/mktime.c 41行。

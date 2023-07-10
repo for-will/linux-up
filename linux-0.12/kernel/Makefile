@@ -34,10 +34,11 @@ dep:
 	(cd blk_drv; make dep)
 
 ### Dependencies:
+exit.s exit.o: exit.c
 mktime.s mktime.o: mktime.c ../include/time.h
 printk.s printk.o: printk.c
-sched.s sched.o: sched.c ../include/linux/sched.h ../include/linux/mm.h \
- ../include/sys/types.h
+sched.s sched.o: sched.c ../include/linux/sched.h ../include/linux/head.h \
+ ../include/linux/mm.h ../include/sys/types.h
 traps.s traps.o: traps.c ../include/string.h ../include/linux/head.h \
  ../include/linux/sched.h ../include/linux/mm.h ../include/linux/kernel.h \
  ../include/asm/system.h ../include/asm/segment.h ../include/asm/io.h

@@ -1,7 +1,7 @@
 AS	=nasm
 LD	=x86_64-elf-ld
 LDFLAGS	=-m elf_i386 -Ttext 0 -e startup_32
-CC	=x86_64-elf-gcc -m32 -march=i386
+CC	=x86_64-elf-gcc -m32 -march=i386 -g
 CFLAGS	=-Wall -fomit-frame-pointer
 CPP	=x86_64-elf-cpp -nostdinc -Iinclude
 
@@ -77,7 +77,7 @@ dep:
 
 ### Dependencies:
 init/main.o: init/main.c include/unistd.h include/time.h include/linux/tty.h \
- include/linux/sched.h include/linux/mm.h include/linux/head.h \
+ include/linux/sched.h include/linux/head.h include/linux/mm.h \
  include/asm/system.h include/asm/io.h include/stddef.h include/stdarg.h \
  include/fcntl.h include/sys/types.h include/linux/fs.h include/string.h
 init/main0.o: init/main0.c

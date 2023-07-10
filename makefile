@@ -75,3 +75,9 @@ ld-system:
 # 	x86_64-elf-gcc -s -x -M head.o main.o -o system
 # 	x86_64-elf-ld -A elf32_i386 -m elf_i386 -e startup_32  -s -x head.o main.o -o system
 # 	x86_64-elf-ld -A elf32_i386 -m elf_i386 -s -x head.o main.o -o system
+
+qemu:
+	qemu-system-i386 -boot order=a -drive file=Image,if=floppy,format=raw -k en-us
+
+qemudb:
+	qemu-system-i386 -boot order=a -drive file=Image,if=floppy,format=raw -s -S -k en-us
