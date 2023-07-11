@@ -1,6 +1,8 @@
 #ifndef _SCHED_H
 #define _SCHED_H
 
+#define NR_TASKS	64
+
 #include <linux/head.h>
 #include <linux/mm.h>
 

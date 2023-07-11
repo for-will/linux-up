@@ -9,6 +9,7 @@ CPP	=x86_64-elf-cpp -nostdinc -Iinclude
 
 ARCHIVES=kernel/kernel.o mm/mm.o fs/fs.o
 DRIVERS	=kernel/blk_drv/blk_drv.a kernel/chr_drv/chr_drv.a
+MATH	=kernel/math/math.a
 LIBS	=lib/lib.a
 
 %.o: %.nasm
@@ -31,14 +32,18 @@ main:
 	$(CC) $(CFLAGS) -nostdinc -Iinclude -Wno-main -c -o main.o init/main.c
 
 tools/system:   boot/head.o init/main.o \
-		$(ARCHIVES) $(DRIVERS) $(LIBS)
+		$(ARCHIVES) $(DRIVERS) $(MATH) $(LIBS)
 	$(LD) $(LDFLAGS) boot/head.o init/main.o \
 	$(ARCHIVES) \
 	$(DRIVERS) \
+	$(MATH) \
 	$(LIBS) \
 	-o tools/system
 
 # boot/head.o: boot/head.nasm
+
+kernel/math/math.a:
+	(cd kernel/math; make)
 
 kernel/blk_drv/blk_drv.a:
 	(cd kernel/blk_drv; make)

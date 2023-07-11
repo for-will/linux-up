@@ -27,6 +27,6 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
-floppy.s floppy.o: floppy.c
-hd.s hd.o: hd.c
+floppy.s floppy.o: floppy.c blk.h ../../include/sys/types.h
+hd.s hd.o: hd.c blk.h ../../include/sys/types.h
 ll_rw_blk.s ll_rw_blk.o: ll_rw_blk.c

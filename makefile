@@ -18,30 +18,30 @@ bochs:
 linux-0.12/tools/system:
 	(cd linux-0.12/tools/system;make)
 
-ubuntu:
-	nasm boot.S -o boot
-	dd if=boot of=Image bs=512 count=1 conv=notrunc
-	# gcc-12 -c -o head.o -m32 head.s
-	as --32 -o head.o head.s
-	ld -m elf_i386 -Ttext 0 -e startup_32 -x -s -o system head.o
-	dd bs=512 if=system of=Image skip=8 seek=1 conv=notrunc
-	bochs -q -unlock
+# ubuntu:
+# 	nasm boot.S -o boot
+# 	dd if=boot of=Image bs=512 count=1 conv=notrunc
+# 	# gcc-12 -c -o head.o -m32 head.s
+# 	as --32 -o head.o head.s
+# 	ld -m elf_i386 -Ttext 0 -e startup_32 -x -s -o system head.o
+# 	dd bs=512 if=system of=Image skip=8 seek=1 conv=notrunc
+# 	bochs -q -unlock
 
-macos:
-	nasm boot.S -o boot
-	dd if=boot of=Image bs=512 count=1 conv=notrunc
-	as -arch i386 -o head.o head.gas 
-	dd bs=280 if=head.o of=head.bin skip=1
-	dd bs=512 if=head.bin of=Image seek=1 conv=notrunc
-	bochs -q -unlock
-	# -m elf_i386 -Ttext 0 -e startup_32 -s -x -M 
+# macos:
+# 	nasm boot.S -o boot
+# 	dd if=boot of=Image bs=512 count=1 conv=notrunc
+# 	as -arch i386 -o head.o head.gas 
+# 	dd bs=280 if=head.o of=head.bin skip=1
+# 	dd bs=512 if=head.bin of=Image seek=1 conv=notrunc
+# 	bochs -q -unlock
+# 	# -m elf_i386 -Ttext 0 -e startup_32 -s -x -M 
 	
-zero:
-	nasm boot.S -o boot
-	dd if=boot of=Image bs=512 count=1 conv=notrunc
-	nasm -f bin -o head.bin head.nasm
-	dd bs=512 if=head.bin of=Image seek=1 conv=notrunc
-	bochs -q -unlock
+# zero:
+# 	nasm boot.S -o boot
+# 	dd if=boot of=Image bs=512 count=1 conv=notrunc
+# 	nasm -f bin -o head.bin head.nasm
+# 	dd bs=512 if=head.bin of=Image seek=1 conv=notrunc
+# 	bochs -q -unlock
 
 
 hello:
@@ -77,7 +77,10 @@ ld-system:
 # 	x86_64-elf-ld -A elf32_i386 -m elf_i386 -s -x head.o main.o -o system
 
 qemu:
-	qemu-system-i386 -boot order=a -drive file=Image,if=floppy,format=raw -k en-us
+	qemu-system-i386 \
+	-boot order=a \
+	-drive file=Image,if=floppy,format=raw \
+	-k en-us 
 
 qemudb:
 	qemu-system-i386 -boot order=a -drive file=Image,if=floppy,format=raw -s -S -k en-us

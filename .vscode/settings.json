@@ -4,6 +4,7 @@
                 "*.tcc": "c",
                 "types.h": "c",
                 "time.h": "c",
-                "unistd.h": "c"
+                "unistd.h": "c",
+                "sched.h": "c"
         }
 }
