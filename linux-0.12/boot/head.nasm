@@ -8,7 +8,7 @@
 section .text
 ; [global _idt, _gdt, _pg_dir, _tmp_floppy_area]
 extern stack_start, _main, printk
-global _idt, _gdt, _pg_dir, _tmp_floppy_area, startup_32
+global _idt, gdt, _pg_dir, _tmp_floppy_area, startup_32
 _pg_dir:                                        ; 页目录将会存放在这里。
 
 ; 再次注意！！这里已经处于32位运行模式，因此这里$0x10现在是一个选择符。这里的移动指令
@@ -345,7 +345,7 @@ dw 0
 ; 组成一个描述符项，所以表中共可有256项。符号_gdt是全局表在本程序中的偏移位置，见234行。
 gdt_descr:
         dw      256*8-1                         ; so does gdt (note that that's any
-        dd      _gdt                            ; magic number, but it works for me :^)
+        dd      gdt                             ; magic number, but it works for me :^)
 
 align 8                                         ; 按8（2^3）字节方式对齐内存地址边界。
 _idt:   times 256 dq 0                          ; idt is uninitialized  ; 256项，每项8字节，填0.
@@ -356,7 +356,7 @@ _idt:   times 256 dq 0                          ; idt is uninitialized  ; 256项
 ; 的描述符。
 ; (0-nul, 1-cs, 2-ds, 3-syscall, 4-TSS0, 5-LDT0, 6-TSS1, 7LDT1, 8-TSS2 etc...)
 
-_gdt:   dq      0x0000000000000000              ; NULL descriptor
+gdt:    dq      0x0000000000000000              ; NULL descriptor
         dq      0x00c09a0000000fff              ; 16Mb          ; 0x08,内核代码段最大长度16MB。
         dq      0x00c0920000000fff              ; 16Mb          ; 0x10,内核数据段最大长度16MB。
         dq      0x0000000000000000              ; TEMPORARY - don't use

@@ -6,6 +6,8 @@
 #define MAJOR_NR 2
 #include "blk.h"
 
+unsigned char selected = 0;
+
 void unexpected_floppy_interrupt() // dummy
 {
 	// todo:

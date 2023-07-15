@@ -16,3 +16,7 @@ void hd_init(void)
 	//todo:
 }
 
+void hd_times_out(void)
+{
+	// dummy
+}

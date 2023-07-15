@@ -6,6 +6,8 @@
 #ifndef _FS_H
 #define _FS_H
 
+#define NR_OPEN 20 //:20
+
 #define NR_BUFFERS nr_buffers
 #define BLOCK_SIZE 1024 //:49
 

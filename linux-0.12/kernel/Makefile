@@ -12,7 +12,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS	= asm.o exit.o fork.o mktime.o printk.o sched.o signal.o sys_call.o traps.o vsprintf.o
+OBJS	= asm.o exit.o fork.o mktime.o panic.o printk.o sched.o signal.o sys_call.o traps.o vsprintf.o
 
 kernel.o: $(OBJS)
 	$(LD) $(LDFLAGS) -r -o kernel.o $(OBJS)
@@ -40,9 +40,14 @@ fork.s fork.o: fork.c
 mktime.s mktime.o: mktime.c ../include/time.h
 printk.s printk.o: printk.c
 sched.s sched.o: sched.c ../include/linux/sched.h ../include/linux/head.h \
- ../include/linux/mm.h ../include/linux/sys.h ../include/sys/types.h
+ ../include/linux/mm.h ../include/linux/fs.h ../include/sys/param.h \
+ ../include/sys/resource.h ../include/signal.h ../include/linux/kernel.h \
+ ../include/linux/sys.h ../include/linux/fdreg.h ../include/asm/system.h \
+ ../include/asm/io.h ../include/asm/segment.h ../include/sys/types.h
 signal.s signal.o: signal.c
 traps.s traps.o: traps.c ../include/string.h ../include/linux/head.h \
- ../include/linux/sched.h ../include/linux/mm.h ../include/linux/kernel.h \
- ../include/asm/system.h ../include/asm/segment.h ../include/asm/io.h
+ ../include/linux/sched.h ../include/linux/mm.h ../include/linux/fs.h \
+ ../include/sys/param.h ../include/sys/resource.h ../include/signal.h \
+ ../include/linux/kernel.h ../include/asm/system.h \
+ ../include/asm/segment.h ../include/asm/io.h
 vsprintf.s vsprintf.o: vsprintf.c ../include/stdarg.h

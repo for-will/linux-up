@@ -5,6 +5,9 @@
                 "types.h": "c",
                 "time.h": "c",
                 "unistd.h": "c",
-                "sched.h": "c"
+                "sched.h": "c",
+                "signal.h": "c",
+                "resource.h": "c",
+                "blk.h": "c"
         }
 }

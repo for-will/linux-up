@@ -10,7 +10,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS	= tty_io.o
+OBJS	= console.o tty_io.o
 
 chr_drv.a: $(OBJS)
 	$(AR) rcs chr_drv.a $(OBJS)
@@ -27,4 +27,5 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
+console.s console.o: console.c
 tty_io.s tty_io.o: tty_io.c
