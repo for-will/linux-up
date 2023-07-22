@@ -8,6 +8,8 @@
                 "sched.h": "c",
                 "signal.h": "c",
                 "resource.h": "c",
-                "blk.h": "c"
+                "blk.h": "c",
+                "errno.h": "c",
+                "segment.h": "c"
         }
 }
