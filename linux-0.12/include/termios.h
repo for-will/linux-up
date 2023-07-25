@@ -1,0 +1,4 @@
+
+struct termios {
+        void * dummy;
+};

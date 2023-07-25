@@ -35,7 +35,12 @@ dep:
 	(cd math; make dep)
 
 ### Dependencies:
-exit.s exit.o: exit.c
+exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
+ ../include/sys/types.h ../include/sys/wait.h ../include/linux/sched.h \
+ ../include/linux/head.h ../include/linux/mm.h ../include/linux/fs.h \
+ ../include/sys/param.h ../include/sys/resource.h \
+ ../include/linux/kernel.h ../include/linux/tty.h \
+ ../include/asm/segment.h
 fork.s fork.o: fork.c
 mktime.s mktime.o: mktime.c ../include/time.h
 panic.s panic.o: panic.c

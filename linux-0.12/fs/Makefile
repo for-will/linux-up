@@ -8,7 +8,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS	= buffer.o exec.o super.o
+OBJS	= buffer.o exec.o inode.o super.o
 
 fs.o: $(OBJS)
 	$(LD)  $(LDFLAGS) -r -o fs.o $(OBJS)
@@ -23,4 +23,7 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
+buffer.o: buffer.c ../include/linux/fs.h
+exec.o: exec.c
+inode.o: inode.c
 super.o: super.c

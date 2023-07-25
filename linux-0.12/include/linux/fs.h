@@ -11,6 +11,10 @@
 #define NR_BUFFERS nr_buffers
 #define BLOCK_SIZE 1024 //:49
 
+struct m_inode {
+        unsigned short i_mode;
+};
+
 extern int nr_buffers;//:172
 
 extern int ROOT_DEV;//:206

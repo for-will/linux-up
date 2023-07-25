@@ -8,3 +8,5 @@ extern int beepcount;
 extern int hd_timeout;
 extern int blankinterval;
 extern int blankcount;
+
+#define suser() (current->euid == 0)

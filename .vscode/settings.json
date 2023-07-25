@@ -10,6 +10,7 @@
                 "resource.h": "c",
                 "blk.h": "c",
                 "errno.h": "c",
-                "segment.h": "c"
+                "segment.h": "c",
+                "head.h": "c"
         }
 }

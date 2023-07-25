@@ -3,4 +3,8 @@
 
 #include <sys/types.h>
 
+/* options for waitpid, WUNTRACED not supported */
+#define WNOHANG         1
+#define WUNTRACED       2
+
 #endif
