@@ -39,9 +39,13 @@ exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
  ../include/sys/types.h ../include/sys/wait.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/fs.h \
  ../include/sys/param.h ../include/sys/resource.h \
- ../include/linux/kernel.h ../include/linux/tty.h \
+ ../include/linux/kernel.h ../include/linux/tty.h ../include/termios.h \
  ../include/asm/segment.h
-fork.s fork.o: fork.c
+fork.s fork.o: fork.c ../include/errno.h ../include/linux/sched.h \
+ ../include/linux/head.h ../include/linux/mm.h ../include/linux/fs.h \
+ ../include/sys/param.h ../include/sys/resource.h ../include/signal.h \
+ ../include/sys/types.h ../include/linux/kernel.h \
+ ../include/asm/segment.h ../include/asm/system.h
 mktime.s mktime.o: mktime.c ../include/time.h
 panic.s panic.o: panic.c
 printk.s printk.o: printk.c

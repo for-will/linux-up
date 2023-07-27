@@ -11,6 +11,8 @@
                 "blk.h": "c",
                 "errno.h": "c",
                 "segment.h": "c",
-                "head.h": "c"
+                "head.h": "c",
+                "fs.h": "c",
+                "param.h": "c"
         }
 }

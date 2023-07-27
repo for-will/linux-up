@@ -13,6 +13,11 @@
 
 struct m_inode {
         unsigned short i_mode;
+        unsigned short i_count;
+};
+
+struct file {
+        unsigned short f_count;
 };
 
 extern int nr_buffers;//:172

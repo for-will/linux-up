@@ -4,6 +4,7 @@
 #define HZ 100
 
 #define NR_TASKS	64
+#define TASK_SIZE	0x04000000
 
 #define FIRST_TASK task[0]
 #define LAST_TASK task[NR_TASKS-1]
@@ -136,6 +137,7 @@ struct task_struct {
 }
 
 extern struct  task_struct *task[NR_TASKS];
+extern unsigned long volatile jiffies;
 extern unsigned long startup_time;
 extern struct task_struct *last_task_used_math;
 extern struct task_struct *current;
@@ -173,6 +175,32 @@ __asm__("cmpl %%eax,current\n\t" \
 	::"m" (*&__tmp.a),"m" (*&__tmp.b), \
 	"d" (_TSS(n)),"c" ((long) task[n])); \
 }
+
+#define _set_base(addr, base) \
+__asm__("movw %%dx,%0\n\t" \
+	"rorl $16,%%edx\n\t" \
+	"movb %%dl,%1\n\t" \
+	"movb %%dh,%2" \
+	::"m" (*((addr)+2)), \
+	  "m" (*((addr)+4)), \
+	  "m" (*((addr)+7)), \
+	  "d" (base) \
+	/* :"dx" */)
+
+#define _set_limit(addr, limit) \
+__asm__("movw %%dx,%0\n\t" \
+	"rorl $16,%%edx\n\t" \
+	"movb %1,%%dh\n\t" \
+	"andb $0xf0,%%dh\n\t" \
+	"orb %%dh,%%dl\n\t" \
+	"movb %%dl,%1" \
+	::"m" (*(addr)), \
+	  "m" (*((addr)+6)), \
+	  "d" (limit) \
+	:"dx")
+
+#define set_base(ldt, base) _set_base( ((char *)&(ldt)) , base )
+#define set_limit(ldt, limit) _set_limit( ((char *)&(ldt)) , (limit-1)>>12 )
 
 // HIGH:24~31	-- 基地址24~31 #addr[7]
 // HIGH:00~07	-- 基地址16~23 #addr[4]
