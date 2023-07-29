@@ -29,9 +29,9 @@ int test()
 }
 ```
 
-使用`x86_64-elf-gcc -m32 -march=i386 -Wall -O -fomit-frame-pointer -finline-functions -c -o test2.o test2.c`编译，然后查``看编译后的结果:
+使用`x86_64-elf-gcc -m32 -march=i386 -Wall -O -fomit-frame-pointer -finline-functions -c -o test2.o test2.c`编译，然后`x86_64-elf-objdump -d test2.o`查看编译后的结果:
 
-```s
+```
 test2.o:     file format elf32-i386
 
 
@@ -56,7 +56,7 @@ Disassembly of section .text:
 ```
 
 将strlen声明为`inline int strlen(const unsigned char * s)`则能成功内联：
-```s
+```
 
 test2.o:     file format elf32-i386
 
