@@ -72,4 +72,4 @@ traps.s traps.o: traps.c ../include/string.h ../include/linux/head.h \
  ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h \
  ../include/signal.h ../include/sys/types.h ../include/linux/kernel.h \
  ../include/asm/system.h ../include/asm/segment.h ../include/asm/io.h
-vsprintf.s vsprintf.o: vsprintf.c ../include/stdarg.h
+vsprintf.s vsprintf.o: vsprintf.c ../include/stdarg.h ../include/string.h

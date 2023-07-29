@@ -1,7 +1,4 @@
-#ifndef _STRING_H_
-#define _STRING_H_
-
-/* extern */ inline int strlen(const unsigned char * s)
+inline int strlen(const unsigned char * s)
 {
 register int __res __asm__("cx");
 __asm__("cld\n\t"
@@ -11,6 +8,12 @@ __asm__("cld\n\t"
         "decl %0"
         :"=c" (__res):"D" (s),"a" (0),"0" (0xffffffff):/* "di" */);
 return __res;
-}
+};
 
-#endif
+
+int test()
+{
+        int a;
+        a = strlen("aaabb");
+        return a;
+}

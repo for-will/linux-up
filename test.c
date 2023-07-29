@@ -20,10 +20,20 @@ outb_p(0x80|addr, 0x70);               // 向端口0x70输出要读取的CMOS内
 // inb_p(0x71); \                          // 从端口0x71读取1字节，返回该字节。
 // })
 
+#include <stdio.h>
+
 void test(){
 
 	unsigned char a = ({
 		outb_p(0x80|2, 0x70);
 		inb_p(0x71);
 	});
+
+}
+
+int main()
+{
+
+        printf("|%-10.5d|\n", 123);
+        return 0;
 }
