@@ -6,6 +6,9 @@
 #define NR_TASKS	64
 #define TASK_SIZE	0x04000000
 
+#define CT_TO_SECS(x)	((x) / HZ)
+#define CT_TO_USECS(x)	(((x) % HZ) * 1000000/HZ)
+
 #define FIRST_TASK task[0]
 #define LAST_TASK task[NR_TASKS-1]
 
@@ -13,6 +16,7 @@
 #include <linux/mm.h>
 #include <linux/fs.h>
 #include <sys/param.h>
+#include <sys/time.h>
 #include <sys/resource.h>
 #include <signal.h>
 
@@ -137,10 +141,13 @@ struct task_struct {
 }
 
 extern struct  task_struct *task[NR_TASKS];
-extern unsigned long volatile jiffies;
-extern unsigned long startup_time;
 extern struct task_struct *last_task_used_math;
 extern struct task_struct *current;
+extern unsigned long volatile jiffies;
+extern unsigned long startup_time;
+extern int jiffies_offset;
+
+#define CURRENT_TIME (startup_time+(jiffies+jiffies_offset)/HZ)
 
 /*
  * Entry into gdt where to find first TSS. 0-null, 1-cs, 2-ds, 3-syscall

@@ -13,6 +13,8 @@
                 "segment.h": "c",
                 "head.h": "c",
                 "fs.h": "c",
-                "param.h": "c"
+                "param.h": "c",
+                "utsname.h": "c",
+                "times.h": "c"
         }
 }
