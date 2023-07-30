@@ -3,6 +3,10 @@
  *
  */
 
+#include <linux/fs.h>
+
+#include <sys/types.h>
+
 #define MAJOR_NR 3
 #include "blk.h"
 
