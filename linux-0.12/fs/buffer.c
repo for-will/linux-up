@@ -11,3 +11,8 @@ void buffer_init(long buffer_end)
 {
 	//todo:
 }
+
+void sys_sync()
+{
+	// dummy
+}
