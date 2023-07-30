@@ -48,7 +48,7 @@ fork.s fork.o: fork.c ../include/errno.h ../include/linux/sched.h \
  ../include/asm/segment.h ../include/asm/system.h
 mktime.s mktime.o: mktime.c ../include/time.h
 panic.s panic.o: panic.c
-printk.s printk.o: printk.c
+printk.s printk.o: printk.c ../include/stdarg.h ../include/stddef.h
 sched.s sched.o: sched.c ../include/linux/sched.h ../include/linux/head.h \
  ../include/linux/mm.h ../include/linux/fs.h ../include/sys/param.h \
  ../include/sys/time.h ../include/sys/resource.h ../include/signal.h \

@@ -18,3 +18,8 @@ void unblank_screen()
 {
         // dummy
 }
+
+void console_print(const char * s)
+{
+        // dummy
+}

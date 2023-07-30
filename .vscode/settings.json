@@ -17,6 +17,7 @@
                 "utsname.h": "c",
                 "times.h": "c",
                 "stdarg.h": "c",
-                "string.h": "c"
+                "string.h": "c",
+                "stddef.h": "c"
         }
 }

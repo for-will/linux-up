@@ -13,7 +13,8 @@ return __res;
 
 int test()
 {
-        int a;
+        volatile int a;
+        a = 100;
         a = strlen("aaabb");
         return a;
 }
