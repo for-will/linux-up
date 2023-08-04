@@ -12,6 +12,8 @@ struct blk_dev_struct blk_dev[NR_BLK_DEV] = {
 	// dummy
 };
 
+int * blk_size[NR_BLK_DEV] = { NULL, NULL, };
+
 static inline void lock_buffer(struct buffer_head * bh)
 {
 	// dummy

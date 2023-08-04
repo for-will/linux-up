@@ -16,3 +16,14 @@ void sys_sync()
 {
 	// dummy
 }
+
+void brelse(struct buffer_head * buf)
+{
+	// dummy
+}
+
+struct buffer_head * bread(int dev, int block)
+{
+	// dummy
+	return 0;
+}

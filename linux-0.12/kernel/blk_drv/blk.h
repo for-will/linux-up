@@ -226,14 +226,17 @@ static void (DEVICE_REQUEST)(void);
 // 没有被锁定，也说明内核程序出了问题，于是也显示出错信息并停机。
 #define INIT_REQUEST \
 repeat: \
+        /* 如果当前请求项指针为NULL则返回 */ \
         if (!CURRENT) { \
                 CLEAR_DEVICE_INTR \
-                ClEAR_DEVICE_TIMEOUT \
+                CLEAR_DEVICE_TIMEOUT \
                 return; \
         } \
+        /* 如果当前设备主设备号不对则停机 */ \
         if (MAJOR(CURRENT->dev) != MAJOR_NR) \
                 panic(DEVICE_NAME ": request list destroyed"); \
         if (CURRENT->bh) { \
+                /* 如果请求项的缓冲区没锁定则停机 */ \
                 if (!CURRENT->bh->b_lock) \
                         panic(DEVICE_NAME ": block not locked"); \
         }

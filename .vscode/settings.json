@@ -18,6 +18,7 @@
                 "times.h": "c",
                 "stdarg.h": "c",
                 "string.h": "c",
-                "stddef.h": "c"
+                "stddef.h": "c",
+                "hdreg.h": "c"
         }
 }

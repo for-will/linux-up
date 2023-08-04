@@ -6,3 +6,8 @@ unsigned long get_free_page(void)
         // dummy
         return 0;
 }
+
+void init_swapping()
+{
+        // dummy
+}

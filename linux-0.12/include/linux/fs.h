@@ -6,6 +6,9 @@
 #ifndef _FS_H
 #define _FS_H
 
+#define READ 0
+#define WRITE 1
+
 #define MAJOR(a) (((unsigned)(a))>>8)
 #define MINOR(a) ((a)&0xff)
 
