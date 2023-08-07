@@ -84,3 +84,7 @@ qemu:
 
 qemudb:
 	qemu-system-i386 -boot order=a -drive file=Image,if=floppy,format=raw -s -S -k en-us
+
+
+bear-test:
+	cd test; make
