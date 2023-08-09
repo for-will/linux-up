@@ -14,7 +14,7 @@ _v; \
 })
 
 #define CMOS_READ(addr) ({\
-outb_p(0x80|addr, 0x70);               // 向端口0x70输出要读取的CMOS内存位置（0x80|addr）。 \
+outb_p(0x80|addr, 0x70);         /* 向端口0x70输出要读取的CMOS内存位置（0x80|addr）。*/ \
 })
 // outb_p(0x80|addr, 0x70); \              // 向端口0x70输出要读取的CMOS内存位置（0x80|addr）。
 // inb_p(0x71); \                          // 从端口0x71读取1字节，返回该字节。

@@ -15,5 +15,22 @@
     "directory": "/Users/xuyz/for-will/linux-up/linux-0.12/",
     "file": "/Users/xuyz/for-will/linux-up/linux-0.12/init/main.c",
     "output": "/Users/xuyz/for-will/linux-up/linux-0.12/init/main.o"
+  },
+  {
+    "arguments": [
+        "x86_64-elf-gcc",
+        "-m32",
+        "-march=i386",
+        "-fomit-frame-pointer",
+	"-nostdinc", 
+        "-I../../include",
+        "-c", 
+        "-o",
+        "init/main.o", 
+        "init/main.c"
+    ],
+    "directory": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/",
+    "file": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/ll_rw_blk.c",
+    "output": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/ll_rw_blk.o" 
   }
 ]
