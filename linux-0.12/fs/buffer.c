@@ -27,3 +27,9 @@ struct buffer_head * bread(int dev, int block)
 	// dummy
 	return 0;
 }
+
+struct buffer_head * breada(int dev, int first, ...)
+{
+	// dummy
+	return 0;
+}

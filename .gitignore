@@ -2,6 +2,8 @@
 *.o
 *.a
 *.out
+*#
 tmp_make
 linux-0.12/tools/system
 .cache/
+

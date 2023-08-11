@@ -14,10 +14,14 @@
 #define MAJOR(a) (((unsigned)(a))>>8)
 #define MINOR(a) ((a)&0xff)
 
+#define SUPER_MAGIC 0x137F			\
+	
+
 #define NR_OPEN 20 
 
 #define NR_BUFFERS nr_buffers
-#define BLOCK_SIZE 1024 //:49
+#define BLOCK_SIZE 1024
+#define BLOCK_SIZE_BITS 10
 
 struct buffer_head {
         char * b_data;
@@ -43,7 +47,32 @@ struct file {
         unsigned short f_count;
 };
 
+struct super_block {
+	unsigned short s_ninodes;
+	unsigned short s_nzones;
+	unsigned short s_imap_blocks;
+	unsigned short s_zmap_blocks;
+	unsigned short s_firstdatazone;
+	unsigned short s_log_zone_size;
+	unsigned long s_max_size;
+	unsigned short s_magic;
+};
+
+struct d_super_block {
+	unsigned short s_ninodes;
+	unsigned short s_nzones;
+	unsigned short s_imap_blocks;
+	unsigned short s_zmap_blocks;
+	unsigned short s_firstdatazone;
+	unsigned short s_log_zone_size;
+	unsigned long s_max_size;
+	unsigned short s_magic;
+};
+
 extern int nr_buffers;//:172
+extern void brelse(struct buffer_head * buf);
+extern struct buffer_head * bread(int dev, int block);
+extern struct buffer_head * breada(int dev, int block, ...);
 
 extern int ROOT_DEV;//:206
 

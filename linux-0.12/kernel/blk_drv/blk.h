@@ -206,7 +206,7 @@ static void (DEVICE_REQUEST)(void);
 #ifdef DEVICE_TIMEOUT
 #define CLEAR_DEVICE_TIMEOUT DEVICE_TIMEOUT = 0;
 #else
-#define ClEAR_DEVICE_TIMEOUT
+#define CLEAR_DEVICE_TIMEOUT
 #endif
 
 // 如果定义了设备中断符号常量DEVICE_INTR，则定义CLEAR_DEVICE_INTR符号常量为
