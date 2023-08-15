@@ -149,6 +149,11 @@ extern int jiffies_offset;
 
 #define CURRENT_TIME (startup_time+(jiffies+jiffies_offset)/HZ)
 
+extern void add_timer(long jiffies, void (*fn)(void));
+extern void sleep_on(struct task_struct ** p);
+extern void interruptible_sleep_on(struct task_struct ** p);
+extern void wake_up(struct task_struct ** p);
+
 /*
  * Entry into gdt where to find first TSS. 0-null, 1-cs, 2-ds, 3-syscall
  * 4-TSS0, 5-LDT0, 6-TSS1 etc ...

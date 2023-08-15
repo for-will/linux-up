@@ -89,7 +89,7 @@ extern int * blk_size[NR_BLK_DEV];
 
 /* 
  * Add entries as needed. Currently the only block devices
- supported are hard-disk and floppies.
+ * supported are hard-disk and floppies.
  */
 
 // 如果定义了 MAJOR_NR = 1（RAM盘主设备号），就是用以下符号常数和宏。

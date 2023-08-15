@@ -6,9 +6,9 @@
 ; the page directory. 
 
 section .text
-; [global _idt, _gdt, _pg_dir, _tmp_floppy_area]
+; [global _idt, _gdt, _pg_dir, tmp_floppy_area]
 extern stack_start, _main, printk
-global _idt, gdt, _pg_dir, _tmp_floppy_area, startup_32
+global _idt, gdt, _pg_dir, tmp_floppy_area, startup_32
 _pg_dir:                                        ; 页目录将会存放在这里。
 
 ; 再次注意！！这里已经处于32位运行模式，因此这里$0x10现在是一个选择符。这里的移动指令
@@ -201,7 +201,7 @@ times 0x5000-($-$$) db 0        ; 定义下面的内存数据块从0x5000处开�
 ; on a 64KB border.
 ; 当DMA（直接存储器访问）不能访问缓冲块时，下面的tmp_floppy_area内存块
 ; 就可以供轮船驱动程序使用。其地址需要对齐调整，这样就不会跨越64KB边界。
-_tmp_floppy_area:
+tmp_floppy_area:
         times 1024 db 0         ; 共保留1024项，每项1字节，填充数值0.
 
 ; 下面这几个入栈操作用于为跳转到init/main.c中的 main() 函数作准备工作。第139行上的指令

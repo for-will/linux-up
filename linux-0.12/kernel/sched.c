@@ -341,7 +341,7 @@ static int moff_timer[4] = {0, 0, 0, 0};
 unsigned char current_DOR = 0x0C;
 
 // 指定软驱启动到正常运转状态所需等待时间。
-// 参数nr　－－　软驱号（0－－3），返回值为滴答数
+// 参数nr －－ 软驱号（0－－3），返回值为滴答数
 // 变量selected是选中软驱标志（blk_drv/floppy.c，123行）。mask是所选软驱对应的
 // 数字输出寄存器DOR中启动马达比特位。mask高4位是各软驱启动马达标志。
 int ticks_to_floppy_on(unsigned int nr)
@@ -379,7 +379,7 @@ int ticks_to_floppy_on(unsigned int nr)
 // 等待指定软驱马达启动所需的一段时间。
 // 设置指定软驱的马达启动到正常转速所需的延时，然后睡眠等待。在定时中断过程中会一直
 // 递减判断这里设定的延时值。当延时到时，就会唤醒这里的等待进程。
-void floopy_on(unsigned int nr)
+void floppy_on(unsigned int nr)
 {
 // 关中断。如果马达启动定时还没到，就一直把当前进程置为不可中断睡眠状态并放入等待马达
 // 运行的队列中。然后开中断。

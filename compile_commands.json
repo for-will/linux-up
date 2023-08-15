@@ -50,7 +50,39 @@
 	"directory": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/",
 	"file": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/ll_rw_blk.c",
 	"output": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/ll_rw_blk.o" 
+    },
+    {
+	"arguments": [
+	    "x86_64-elf-gcc",
+	    "-m32",
+	    "-march=i386",
+	    "-fomit-frame-pointer",
+	    "-nostdinc", 
+	    "-I../../include",
+	    "-c", 
+	    "-o",
+	    "floppy.c", 
+	    "floppy.o"
+	],
+	"directory": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/",
+	"file": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/floppy.c",
+	"output": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/blk_drv/floppy.o" 
+    },
+    {
+	"arguments": [
+	    "x86_64-elf-gcc",
+	    "-m32",
+	    "-march=i386",
+	    "-fomit-frame-pointer",
+	    "-nostdinc", 
+	    "-I../include",
+	    "-c", 
+	    "-o",
+	    "sched.c", 
+	    "sched.o"
+	],
+	"directory": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/",
+	"file": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/sched.c",
+	"output": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/sched.o" 
     }
-
-
 ]

@@ -27,8 +27,13 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
-floppy.s floppy.o: floppy.c ../../include/linux/fs.h ../../include/sys/types.h \
- blk.h
+floppy.s floppy.o: floppy.c ../../include/linux/sched.h ../../include/linux/head.h \
+ ../../include/linux/mm.h ../../include/linux/fs.h \
+ ../../include/sys/param.h ../../include/sys/time.h \
+ ../../include/sys/resource.h ../../include/signal.h \
+ ../../include/sys/types.h ../../include/linux/kernel.h \
+ ../../include/linux/fdreg.h ../../include/asm/system.h \
+ ../../include/asm/io.h ../../include/asm/segment.h blk.h
 hd.s hd.o: hd.c ../../include/linux/config.h ../../include/linux/sched.h \
  ../../include/linux/head.h ../../include/linux/mm.h \
  ../../include/linux/fs.h ../../include/sys/param.h \

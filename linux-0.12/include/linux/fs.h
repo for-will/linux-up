@@ -69,6 +69,9 @@ struct d_super_block {
 	unsigned short s_magic;
 };
 
+extern void floppy_on(unsigned int dev);
+extern void floppy_off(unsigned int dev);
+
 extern int nr_buffers;//:172
 extern void brelse(struct buffer_head * buf);
 extern struct buffer_head * bread(int dev, int block);
