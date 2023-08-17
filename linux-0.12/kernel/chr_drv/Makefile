@@ -1,4 +1,4 @@
-AS	=nasm
+AS	=x86_64-elf-as
 AR	=x86_64-elf-ar
 LD	=x86_64-elf-ld
 LDFLAGS	=-m elf_i386 -s -x
@@ -15,6 +15,12 @@ OBJS	= console.o tty_io.o
 chr_drv.a: $(OBJS)
 	$(AR) rcs chr_drv.a $(OBJS)
 	sync
+
+keyboard_cpp.s: keyboard.S
+	$(CPP) -traditional keyboard.S -o keyboard_cpp.s
+
+keyboard.o: keyboard_cpp.s
+	$(AS) --32 -c -o $@ $<
 
 clean:
 	rm -f *.o *.a tmp_make keyboard.s
