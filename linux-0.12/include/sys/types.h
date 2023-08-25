@@ -15,4 +15,6 @@ typedef int pid_t;
 typedef unsigned short gid_t;
 typedef long off_t;
 
+typedef unsigned char cc_t;
+
 #endif

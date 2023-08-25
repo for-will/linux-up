@@ -5,6 +5,7 @@
 #define EPERM            1
 #define ESRCH            3
 #define EINTR            4
+#define EIO		 5
 #define ECHILD          10
 #define EAGAIN          11
 #define ENOMEM          12

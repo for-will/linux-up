@@ -25,3 +25,8 @@ int copy_page_tables(unsigned long from, unsigned long to, long size)
 	// dummy
 	return 0;
 }
+
+void show_mem(void)
+{
+	// dummy
+}

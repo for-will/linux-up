@@ -77,3 +77,11 @@ Disassembly of section .text:
   19:	c3                   	ret
 ```
 
+### Ubuntu 64上的GCC编译32位程序
+
+添加`-m32`选项,并安装:
+
+```sh 
+sudo apt-get install build-essential module-assistant  
+sudo apt-get install gcc-multilib g++-multilib  
+```
