@@ -1423,3 +1423,4 @@ void console_print(const char * b)
 	}
 	set_cursor(currcons);	// 最后设置的光标内存位置，设置显示控制器中光标位置。
 }
+

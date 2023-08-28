@@ -10,7 +10,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS	= console.o keyboard.o tty_io.o
+OBJS	= console.o keyboard.o serial.o tty_io.o
 
 chr_drv.a: $(OBJS)
 	$(AR) rcs chr_drv.a $(OBJS)
@@ -42,5 +42,11 @@ console.s console.o: console.c ../../include/linux/sched.h \
  ../../include/linux/config.h ../../include/linux/kernel.h \
  ../../include/asm/io.h ../../include/asm/system.h \
  ../../include/asm/segment.h ../../include/string.h ../../include/errno.h
+serial.s serial.o: serial.c ../../include/linux/tty.h ../../include/termios.h \
+ ../../include/sys/types.h ../../include/linux/sched.h \
+ ../../include/linux/head.h ../../include/linux/mm.h \
+ ../../include/linux/fs.h ../../include/sys/param.h \
+ ../../include/sys/time.h ../../include/sys/resource.h \
+ ../../include/signal.h ../../include/asm/system.h ../../include/asm/io.h
 tty_io.s tty_io.o: tty_io.c ../../include/linux/tty.h ../../include/termios.h \
  ../../include/sys/types.h

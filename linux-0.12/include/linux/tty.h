@@ -20,6 +20,8 @@ struct tty_queue {
 };
 
 #define INC(a) ((a) = ((a)+1) & (TTY_BUF_SIZE-1))
+#define DEC(a) ((a) = ((a)-1) & (TTY_BUF_SIZE-1))
+#define EMPTY(a) ((a)->head == (a)->tail)
 #define CHARS(a) (((a)->head-(a)->tail)&(TTY_BUF_SIZE-1))
 #define GETCH(queue, c) \
 	(void)({c=(queue)->buf[(queue)->tail];INC((queue)->tail);})
