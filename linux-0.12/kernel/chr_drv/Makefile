@@ -9,8 +9,10 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../../include
 .c.o:
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
+.s.o:
+	$(AS) --32 -c -o $@ $<
 
-OBJS	= console.o keyboard.o serial.o tty_io.o
+OBJS	= console.o keyboard.o rs_io.o serial.o tty_io.o
 
 chr_drv.a: $(OBJS)
 	$(AR) rcs chr_drv.a $(OBJS)
