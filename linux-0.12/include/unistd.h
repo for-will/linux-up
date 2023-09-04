@@ -1,6 +1,8 @@
 #ifndef _UNISTD_H
 #define _UNISTD_H
 
+#define _POSIX_VDISABLE '\0'	/* character to disable things like ^C */
+
 #ifdef __LIBRARY__
 
 #define __NR_setup	0	/* used only by init, to get system going */

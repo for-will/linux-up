@@ -75,6 +75,23 @@
 	    "-march=i386",
 	    "-fomit-frame-pointer",
 	    "-nostdinc", 
+	    "-I../../include",
+	    "-c", 
+	    "-o",
+	    "tty_io.c", 
+	    "tty_io.o"
+	],
+	"directory": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/chr_drv/",
+	"file": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/chr_drv/tty_io.c",
+	"output": "/Users/xuyz/for-will/linux-up/linux-0.12/kernel/chr_drv/tty_io.o" 
+    },
+    {
+	"arguments": [
+	    "x86_64-elf-gcc",
+	    "-m32",
+	    "-march=i386",
+	    "-fomit-frame-pointer",
+	    "-nostdinc", 
 	    "-I../include",
 	    "-c", 
 	    "-o",

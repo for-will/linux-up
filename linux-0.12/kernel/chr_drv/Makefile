@@ -12,7 +12,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../../include
 .s.o:
 	$(AS) --32 -c -o $@ $<
 
-OBJS	= console.o keyboard.o rs_io.o serial.o tty_io.o
+OBJS	= console.o keyboard.o pty.o rs_io.o serial.o tty_io.o
 
 chr_drv.a: $(OBJS)
 	$(AR) rcs chr_drv.a $(OBJS)
@@ -44,11 +44,24 @@ console.s console.o: console.c ../../include/linux/sched.h \
  ../../include/linux/config.h ../../include/linux/kernel.h \
  ../../include/asm/io.h ../../include/asm/system.h \
  ../../include/asm/segment.h ../../include/string.h ../../include/errno.h
+pty.s pty.o: pty.c ../../include/linux/kernel.h ../../include/linux/tty.h \
+ ../../include/termios.h ../../include/sys/types.h \
+ ../../include/linux/sched.h ../../include/linux/head.h \
+ ../../include/linux/mm.h ../../include/linux/fs.h \
+ ../../include/sys/param.h ../../include/sys/time.h \
+ ../../include/sys/resource.h ../../include/signal.h \
+ ../../include/asm/system.h ../../include/asm/io.h
 serial.s serial.o: serial.c ../../include/linux/tty.h ../../include/termios.h \
  ../../include/sys/types.h ../../include/linux/sched.h \
  ../../include/linux/head.h ../../include/linux/mm.h \
  ../../include/linux/fs.h ../../include/sys/param.h \
  ../../include/sys/time.h ../../include/sys/resource.h \
  ../../include/signal.h ../../include/asm/system.h ../../include/asm/io.h
-tty_io.s tty_io.o: tty_io.c ../../include/linux/tty.h ../../include/termios.h \
- ../../include/sys/types.h
+tty_io.s tty_io.o: tty_io.c ../../include/sys/types.h ../../include/termios.h \
+ ../../include/ctype.h ../../include/errno.h ../../include/signal.h \
+ ../../include/unistd.h ../../include/linux/kernel.h \
+ ../../include/linux/sched.h ../../include/linux/head.h \
+ ../../include/linux/mm.h ../../include/linux/fs.h \
+ ../../include/sys/param.h ../../include/sys/time.h \
+ ../../include/sys/resource.h ../../include/linux/tty.h \
+ ../../include/asm/segment.h ../../include/asm/system.h

@@ -27,7 +27,10 @@
 #define TASK_ZOMBIE		3
 #define TASK_STOPPED		4
 
+extern void sched_init(void);
+extern void schedule(void);
 extern void panic(const char * str);
+extern int tty_write(unsigned minor, char * buf, int count);
 
 struct i387_struct {
 	long 	cwd;
