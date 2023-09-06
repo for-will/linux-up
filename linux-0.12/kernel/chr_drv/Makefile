@@ -12,7 +12,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../../include
 .s.o:
 	$(AS) --32 -c -o $@ $<
 
-OBJS	= console.o keyboard.o pty.o rs_io.o serial.o tty_io.o
+OBJS	= console.o keyboard.o pty.o rs_io.o serial.o tty_io.o tty_ioctl.o
 
 chr_drv.a: $(OBJS)
 	$(AR) rcs chr_drv.a $(OBJS)
@@ -65,3 +65,11 @@ tty_io.s tty_io.o: tty_io.c ../../include/sys/types.h ../../include/termios.h \
  ../../include/sys/param.h ../../include/sys/time.h \
  ../../include/sys/resource.h ../../include/linux/tty.h \
  ../../include/asm/segment.h ../../include/asm/system.h
+tty_ioctl.s tty_ioctl.o: tty_ioctl.c ../../include/linux/fs.h ../../include/signal.h \
+ ../../include/sys/types.h ../../include/errno.h ../../include/termios.h \
+ ../../include/linux/sched.h ../../include/linux/head.h \
+ ../../include/linux/mm.h ../../include/sys/param.h \
+ ../../include/sys/time.h ../../include/sys/resource.h \
+ ../../include/linux/kernel.h ../../include/linux/tty.h \
+ ../../include/asm/io.h ../../include/asm/segment.h \
+ ../../include/asm/system.h

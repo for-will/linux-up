@@ -10,6 +10,7 @@
 #define EAGAIN          11
 #define ENOMEM          12
 #define EINVAL          22
+#define ENOTTY		25
 #define ENOSYS          38
 
 

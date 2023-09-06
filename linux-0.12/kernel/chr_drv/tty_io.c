@@ -375,7 +375,6 @@ int tty_signal(int sig, struct tty_struct * tty)
 {
 // 我们并不希望停止一个孤儿进程组中的进程（参见文件kernel/exit.c中第232行上的说明）。
 // 因此若当前进程组是孤儿进程组，就出错返回。否则就向当前进程组中所有进程发送指定信号sig。
-	//
 	if (is_orphaned_pgrp(current->pgrp))
 		return -EIO;	/* don't stop an orphaned pgrp */
 	(void) kill_pg(current->pgrp, sig, 1); // 发送信号sig。
