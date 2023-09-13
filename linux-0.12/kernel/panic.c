@@ -17,8 +17,6 @@
 
 void sys_sync(void);            /* it's really int */
 
-void panic(const char * s) __attribute__ ((noreturn));
-
 // 该函数用来显示内核中出现的重大错误信息，并运行文件系统同步函数，然后进入死循环--死机。
 // 如果当前进程是任务0的话，还说明是交换任务出错，并且还没有运行文件系统同步函数。
 // 函数名前的关键字 volatile用于告诉编译器gcc该函数不会返回。这样让gcc产生更好一些的
