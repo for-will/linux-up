@@ -3,8 +3,9 @@
 
 void verify_area(void * addr, int count);
 volatile void panic(const char * str);
-volatile void do_exit(long error_code);
-int printf(const char * fmt, ...);
+/* volatile void do_exit(long error_code); */
+void do_exit(long error_code) __attribute__((noreturn));
+/* int printf(const char * fmt, ...); */
 int printk(const char * fmt, ...);
 
 

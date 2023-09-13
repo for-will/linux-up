@@ -8,8 +8,8 @@
 section .text
 ; [global _idt, _gdt, _pg_dir, tmp_floppy_area]
 extern stack_start, _main, printk
-global _idt, gdt, _pg_dir, tmp_floppy_area, startup_32
-_pg_dir:                                        ; 页目录将会存放在这里。
+global _idt, gdt, pg_dir, tmp_floppy_area, startup_32
+pg_dir:                                        ; 页目录将会存放在这里。
 
 ; 再次注意！！这里已经处于32位运行模式，因此这里$0x10现在是一个选择符。这里的移动指令
 ; 会把相应描述符内容加载进段寄存器。这里$0x10的含义是：
@@ -297,10 +297,10 @@ setup_paging:                                   ; 首先对5页内存（1页目�
 ; 例如“$pg0+7”表示：0x00001007,是页目录表中的第1项。
 ; 则第1个页表所在的地址 = 0x00001007 & 0xfffff000 = 0x1000;
 ; 第1个页表的属性标志 = 0x00001007 & 0x00000fff = 0x07, 表示该页存在、用户可读写。
-        mov     dword [_pg_dir], pg0+7          ; set present bit/user r/w
-        mov     dword [_pg_dir+4], pg1+7
-        mov     dword [_pg_dir+8], pg2+7
-        mov     dword [_pg_dir+12], pg3+7
+        mov     dword [pg_dir], pg0+7          ; set present bit/user r/w
+        mov     dword [pg_dir+4], pg1+7
+        mov     dword [pg_dir+8], pg2+7
+        mov     dword [pg_dir+12], pg3+7
 
 ; 下面6行填写4个页表中所有项的内容，共有：4（页表）*1024（项/页表）=4096项（0-0xfff），
 ; 也即能映射物理内存 4096*4KB = 16MB。

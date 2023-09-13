@@ -3,7 +3,7 @@ AR	=x86_64-elf-ar
 LD	=x86_64-elf-ld
 LDFLAGS	=-m elf_i386
 CC	=x86_64-elf-gcc -m32 -march=i386
-CFLAGS	=-Wall -fomit-frame-pointer -finline-functions -nostdinc -I../include
+CFLAGS	=-Wall -O -fomit-frame-pointer -finline-functions -nostdinc -I../include
 CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 
 .s.o:
@@ -31,5 +31,8 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
-memory.o: memory.c
+memory.o: memory.c ../include/linux/fs.h ../include/linux/mm.h \
+ ../include/linux/kernel.h ../include/signal.h ../include/sys/types.h \
+ ../include/asm/system.h ../include/linux/sched.h ../include/linux/head.h \
+ ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h
 swap.o: swap.c

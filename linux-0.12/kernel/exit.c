@@ -352,7 +352,7 @@ static int has_stopped_jobs(int pgrp)
 // 程序退出 处理函数。在下面365行处被系统调用sys_exit()调用。
 // 该函数将根据当前进程自身的特性对其进行处理，并把当前进程状态设置成僵死状态
 // TASK_ZOMBIE，最后调用调度函数schedule()去执行其它进程，不再返回。
-volatile void do_exit(long code)
+/* volatile */ void do_exit(long code)
 {
 	struct task_struct *p;
 	int i;

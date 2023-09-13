@@ -28,6 +28,11 @@ struct buffer_head * bread(int dev, int block)
 	return 0;
 }
 
+void bread_page(unsigned long addr, int dev, int b[4])
+{
+	
+}
+
 struct buffer_head * breada(int dev, int first, ...)
 {
 	// dummy

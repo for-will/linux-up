@@ -5,6 +5,10 @@
 
 #define NR_TASKS	64
 #define TASK_SIZE	0x04000000
+#define LIBRARY_SIZE	0x00400000
+
+
+#define LIBRARY_OFFSET (TASK_SIZE - LIBRARY_SIZE)
 
 #define CT_TO_SECS(x)	((x) / HZ)
 #define CT_TO_USECS(x)	(((x) % HZ) * 1000000/HZ)

@@ -85,3 +85,7 @@ Disassembly of section .text:
 sudo apt-get install build-essential module-assistant  
 sudo apt-get install gcc-multilib g++-multilib  
 ```
+
+### 返回值类型为`volatile void`的函数
+
+在内核代码中有的函数返回值类型为`volatile void`表示该函数不会返回，当函数中有死循环或者函数中直接退出的进程的时候，函数就不会再返回了。比如`volatile void do_exit(long error_code)`，现在的gcc貌似不支持这样写了，而是在函数声明中添加标注。相应的函数声明为：`void do_exit(long error_code) __attribute__((noreturn));`。

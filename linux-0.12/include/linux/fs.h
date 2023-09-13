@@ -41,6 +41,8 @@ struct buffer_head {
 struct m_inode {
         unsigned short i_mode;
         unsigned short i_count;
+
+	unsigned short i_dev;
 };
 
 struct file {
@@ -71,11 +73,14 @@ struct d_super_block {
 
 extern void floppy_on(unsigned int dev);
 extern void floppy_off(unsigned int dev);
+extern int bmap(struct m_inode * inode, int block);
 
 extern int nr_buffers;//:172
+extern void ll_rw_page(int rw, int dev, int nr, char * buffer);
 extern void brelse(struct buffer_head * buf);
 extern struct buffer_head * bread(int dev, int block);
 extern struct buffer_head * breada(int dev, int block, ...);
+extern void bread_page(unsigned long addr, int dev, int b[4]);
 
 extern int ROOT_DEV;//:206
 
