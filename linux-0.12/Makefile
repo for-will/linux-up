@@ -2,7 +2,7 @@ AS	=nasm
 LD	=x86_64-elf-ld
 LDFLAGS	=-m elf_i386 -Ttext 0 -e startup_32
 CC	=x86_64-elf-gcc -m32 -march=i386 -g
-CFLAGS	=-Wall -fomit-frame-pointer
+CFLAGS	=-Wall -O -fomit-frame-pointer
 CPP	=x86_64-elf-cpp -nostdinc -Iinclude
 
 # start: linux-bootsect

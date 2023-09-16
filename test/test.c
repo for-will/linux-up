@@ -22,6 +22,11 @@ outb_p(0x80|addr, 0x70);         /* 向端口0x70输出要读取的CMOS内存位
 
 #include <stdio.h>
 
+int add(int a, int b)
+{
+	return a + b;
+}
+
 void test(){
 
 	unsigned char a = ({
