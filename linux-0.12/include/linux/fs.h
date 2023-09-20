@@ -18,7 +18,10 @@
 	
 
 #define NR_OPEN 20 
-
+#define NR_INODE 64
+#define NR_FILE 64
+#define NR_SUPER 8
+#define NR_HASH 307
 #define NR_BUFFERS nr_buffers
 #define BLOCK_SIZE 1024
 #define BLOCK_SIZE_BITS 10
@@ -27,7 +30,8 @@ struct buffer_head {
         char * b_data;
         unsigned long b_blocknr;
         unsigned short b_dev;
-        unsigned char b_uptodate;
+        unsigned char b_uptodate;		// 1：数据是有效的（已更新的）；0：需要从设备中读取更新。
+						// 叫b_loaded不好吗？？
         unsigned char b_dirt;
         unsigned char b_count;
         unsigned char b_lock;
@@ -58,6 +62,10 @@ struct super_block {
 	unsigned short s_log_zone_size;
 	unsigned long s_max_size;
 	unsigned short s_magic;
+/* These are only in memory */
+	struct buffer_head * s_imap[8];
+	struct buffer_head * s_zmap[8];
+	unsigned short s_dev;
 };
 
 struct d_super_block {
@@ -73,9 +81,17 @@ struct d_super_block {
 
 extern void floppy_on(unsigned int dev);
 extern void floppy_off(unsigned int dev);
+extern void truncate(struct m_inode * inode);
+extern void sync_inodes(void);
 extern int bmap(struct m_inode * inode, int block);
 
-extern int nr_buffers;//:172
+extern struct super_block super_block[NR_SUPER];
+extern struct buffer_head * start_buffer;
+extern int nr_buffers;
+
+extern void check_disk_change(int dev);
+extern int floppy_change(unsigned int nr);
+extern void ll_rw_block(int rw, struct buffer_head * bh);
 extern void ll_rw_page(int rw, int dev, int nr, char * buffer);
 extern void brelse(struct buffer_head * buf);
 extern struct buffer_head * bread(int dev, int block);
@@ -83,5 +99,11 @@ extern struct buffer_head * breada(int dev, int block, ...);
 extern void bread_page(unsigned long addr, int dev, int b[4]);
 
 extern int ROOT_DEV;//:206
+
+// super.c
+extern void put_super(int dev);
+
+// inode.c
+extern void invalidate_inodes(int dev);
 
 #endif

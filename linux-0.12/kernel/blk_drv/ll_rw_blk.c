@@ -152,15 +152,15 @@ static void make_request(int major, int rw, struct buffer_head * bh)
 	struct request * req;
 	int rw_ahead;
 
-	/* WRITEA/READA is special case - it is not really needed, so if the */
-	/* buffer is locked, we just forget about it, else it's a normal read */
-	/* WRITEA/READA 是一种特殊情况 - 它们并非必要，所以如果缓冲区已经上锁， */
-	/* 我们就不管它，否则的话它只是一个一般的读操作。 */
-	// 这里‘READ’和‘WRITE’后面的‘A’字母代表英文单词Ahead，表示提前预读/写数据块的意思。
-	// 该函数首先对命令READA/WRITEA的情况进行一些处理，对于这两个命令，当指定的缓冲区
-	// 正在使用而已被上锁时，就放弃预读/写请求。否则就作为普通的READ/WRTE命令进行操作。
-	// 另外，如果参数给出的命令既不是READ也不是WRITE，则表示内核程序有错，显示出错信
-	// 息并停机。注意，在修改命令之前这里已为参数是否是预读/写命令设置了标志rw_ahead。
+/* WRITEA/READA is special case - it is not really needed, so if the */
+/* buffer is locked, we just forget about it, else it's a normal read */
+/* WRITEA/READA 是一种特殊情况 - 它们并非必要，所以如果缓冲区已经上锁， */
+/* 我们就不管它，否则的话它只是一个一般的读操作。 */
+// 这里‘READ’和‘WRITE’后面的‘A’字母代表英文单词Ahead，表示提前预读/写数据块的意思。
+// 该函数首先对命令READA/WRITEA的情况进行一些处理，对于这两个命令，当指定的缓冲区
+// 正在使用而已被上锁时，就放弃预读/写请求。否则就作为普通的READ/WRTE命令进行操作。
+// 另外，如果参数给出的命令既不是READ也不是WRITE，则表示内核程序有错，显示出错信
+// 息并停机。注意，在修改命令之前这里已为参数是否是预读/写命令设置了标志rw_ahead。
 	if (rw_ahead = (rw == READA || rw == WRITEA)) {
 		if (bh->b_lock)
 			return;

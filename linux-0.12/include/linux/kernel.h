@@ -3,7 +3,7 @@
 
 void verify_area(void * addr, int count);
 /* volatile void panic(const char * str); */
-void panic(const char * str) __attribute__((__noreturn__));
+void panic(const char * str) __attribute__((noreturn));
 /* volatile void do_exit(long error_code); */
 void do_exit(long error_code) __attribute__((noreturn));
 /* int printf(const char * fmt, ...); */
