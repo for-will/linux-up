@@ -119,6 +119,10 @@ extern void ll_rw_page(int rw, int dev, int nr, char * buffer);
 extern void brelse(struct buffer_head * buf);
 extern struct buffer_head * bread(int dev, int block);
 extern struct buffer_head * breada(int dev, int block, ...);
+extern int new_block(int dev);
+extern int free_block(int dev, int block);
+extern struct m_inode * new_inode(int dev);
+extern void free_inode(struct m_inode * inode);
 extern void bread_page(unsigned long addr, int dev, int b[4]);
 
 extern struct super_block * get_super(int dev);
