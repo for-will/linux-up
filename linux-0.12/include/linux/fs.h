@@ -44,9 +44,26 @@ struct buffer_head {
 
 struct m_inode {
         unsigned short i_mode;
-        unsigned short i_count;
-
+	unsigned short i_uid;
+	unsigned long i_size;
+	unsigned long i_mtime;
+	unsigned char i_gid;
+	unsigned char i_nlinks;
+	unsigned short i_zone[9];
+/* these are in memory also */
+	struct task_struct * i_wait;
+	struct task_struct * i_wait2; 		/* for pipes */
+	unsigned long i_atime;
+	unsigned long i_ctime;
 	unsigned short i_dev;
+	unsigned short i_num;
+        unsigned short i_count;
+	unsigned char i_lock;
+	unsigned char i_dirt;
+	unsigned char i_pipe;
+	unsigned char i_mount;
+	unsigned char i_seek;
+	unsigned char i_update;
 };
 
 struct file {
@@ -91,6 +108,12 @@ extern int nr_buffers;
 
 extern void check_disk_change(int dev);
 extern int floppy_change(unsigned int nr);
+extern void iput(struct m_inode * inode);
+extern struct m_inode * iget(int dev, int nr);
+extern struct m_inode * get_empty_inode(void);
+extern struct m_inode * get_pipe_inode(void);
+extern struct buffer_head * get_hash_table(int dev, int block);
+extern struct buffer_head * getblk(int dev, int block);
 extern void ll_rw_block(int rw, struct buffer_head * bh);
 extern void ll_rw_page(int rw, int dev, int nr, char * buffer);
 extern void brelse(struct buffer_head * buf);
@@ -98,7 +121,8 @@ extern struct buffer_head * bread(int dev, int block);
 extern struct buffer_head * breada(int dev, int block, ...);
 extern void bread_page(unsigned long addr, int dev, int b[4]);
 
-extern int ROOT_DEV;//:206
+extern struct super_block * get_super(int dev);
+extern int ROOT_DEV;
 
 // super.c
 extern void put_super(int dev);

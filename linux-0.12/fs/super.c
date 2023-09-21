@@ -18,3 +18,8 @@ void put_super(int dev)
 {
 	
 }
+
+struct super_block * get_super(int dev)
+{
+	
+}
