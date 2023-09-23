@@ -33,7 +33,11 @@ buffer.o: buffer.c ../include/sys/types.h ../include/linux/fs.h \
  ../include/signal.h ../include/sys/param.h ../include/sys/time.h \
  ../include/sys/resource.h ../include/asm/system.h ../include/asm/io.h
 exec.o: exec.c
-inode.o: inode.c ../include/linux/fs.h ../include/sys/types.h
+inode.o: inode.c ../include/linux/fs.h ../include/sys/types.h \
+ ../include/string.h ../include/sys/stat.h ../include/linux/sched.h \
+ ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
+ ../include/signal.h ../include/sys/param.h ../include/sys/time.h \
+ ../include/sys/resource.h ../include/asm/system.h
 super.o: super.c ../include/linux/fs.h
 truncate.o: truncate.c ../include/linux/fs.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \

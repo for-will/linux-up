@@ -91,3 +91,12 @@ sudo apt-get install gcc-multilib g++-multilib
 在内核代码中有的函数返回值类型为`volatile void`表示该函数不会返回，当函数中有死循环或者函数中直接退出的进程的时候，函数就不会再返回了。比如`volatile void do_exit(long error_code)`，现在的gcc貌似不支持这样写了，而是在函数声明中添加标注。相应的函数声明为：`void do_exit(long error_code) __attribute__((noreturn));`。
 
 ### 对于目录文件，可执行表示可以进入目录
+
+
+### 为什么会出现inode->i_count=0但是inode->i_nlinks>0的m_inode??
+
+### void read_inode(struct m_inode * inode)读取指定i节点信息。
+这里会锁定i节点。结尾会解锁i节点。
+
+### void write_inode(struct m_inode * inode)将i节点信息写入缓冲区中。
+开始时锁定inode，结尾处解锁inode。将inode复制到buffer中后，inode清除脏标记，而对应的buffer被标脏。

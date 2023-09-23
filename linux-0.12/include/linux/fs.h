@@ -14,6 +14,9 @@
 #define MAJOR(a) (((unsigned)(a))>>8)
 #define MINOR(a) ((a)&0xff)
 
+#define NAME_LEN 14
+#define ROOT_INO 1
+
 #define SUPER_MAGIC 0x137F			\
 	
 
@@ -25,6 +28,12 @@
 #define NR_BUFFERS nr_buffers
 #define BLOCK_SIZE 1024
 #define BLOCK_SIZE_BITS 10
+
+#define INODES_PER_BLOCK ((BLOCK_SIZE/(sizeof (struct d_inode))))
+
+
+#define PIPE_HEAD(inode) ((inode).i_zone[0])
+#define PIPE_TAIL(inode) ((inode).i_zone[1])
 
 struct buffer_head {
         char * b_data;
@@ -40,6 +49,16 @@ struct buffer_head {
         struct buffer_head * b_next;
         struct buffer_head * b_prev_free;
         struct buffer_head * b_next_free;
+};
+
+struct d_inode {
+	unsigned short i_mode;
+	unsigned short i_uid;
+	unsigned long i_size;
+	unsigned long i_time;
+	unsigned char i_gid;
+	unsigned char i_nlinks;
+	unsigned short i_zone[9];
 };
 
 struct m_inode {
@@ -83,6 +102,13 @@ struct super_block {
 	struct buffer_head * s_imap[8];
 	struct buffer_head * s_zmap[8];
 	unsigned short s_dev;
+	struct m_inode * s_isup;
+	struct m_inode * s_imount;
+	unsigned long s_time;
+	struct task_struct * s_wait;
+	unsigned char s_lock;
+	unsigned char s_rd_only;
+	unsigned char s_dirt;
 };
 
 struct d_super_block {
@@ -118,13 +144,13 @@ extern void ll_rw_block(int rw, struct buffer_head * bh);
 extern void ll_rw_page(int rw, int dev, int nr, char * buffer);
 extern void brelse(struct buffer_head * buf);
 extern struct buffer_head * bread(int dev, int block);
+extern void bread_page(unsigned long addr, int dev, int b[4]);
 extern struct buffer_head * breada(int dev, int block, ...);
 extern int new_block(int dev);
 extern int free_block(int dev, int block);
 extern struct m_inode * new_inode(int dev);
 extern void free_inode(struct m_inode * inode);
-extern void bread_page(unsigned long addr, int dev, int b[4]);
-
+extern int sync_dev(int dev);
 extern struct super_block * get_super(int dev);
 extern int ROOT_DEV;
 
