@@ -8,7 +8,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS	= bitmap.o buffer.o exec.o inode.o super.o truncate.o
+OBJS	= bitmap.o buffer.o exec.o file_table.o inode.o namei.o super.o truncate.o
 
 fs.o: $(OBJS)
 	$(LD)  $(LDFLAGS) -r -o fs.o $(OBJS)
@@ -33,12 +33,19 @@ buffer.o: buffer.c ../include/sys/types.h ../include/linux/fs.h \
  ../include/signal.h ../include/sys/param.h ../include/sys/time.h \
  ../include/sys/resource.h ../include/asm/system.h ../include/asm/io.h
 exec.o: exec.c
+file_table.o: file_table.c ../include/linux/fs.h
 inode.o: inode.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/string.h ../include/sys/stat.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
  ../include/signal.h ../include/sys/param.h ../include/sys/time.h \
  ../include/sys/resource.h ../include/asm/system.h
-super.o: super.c ../include/linux/fs.h
+namei.o: namei.c
+super.o: super.c ../include/linux/fs.h ../include/sys/types.h \
+ ../include/linux/config.h ../include/linux/sched.h \
+ ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
+ ../include/signal.h ../include/sys/param.h ../include/sys/time.h \
+ ../include/sys/resource.h ../include/asm/system.h ../include/errno.h \
+ ../include/sys/stat.h
 truncate.o: truncate.c ../include/linux/fs.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
  ../include/signal.h ../include/sys/types.h ../include/sys/param.h \

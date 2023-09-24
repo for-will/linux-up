@@ -17,6 +17,8 @@
 #define NAME_LEN 14
 #define ROOT_INO 1
 
+#define I_MAP_SLOTS 8
+#define Z_MAP_SLOTS 8
 #define SUPER_MAGIC 0x137F			\
 	
 
@@ -128,12 +130,16 @@ extern void truncate(struct m_inode * inode);
 extern void sync_inodes(void);
 extern int bmap(struct m_inode * inode, int block);
 
+extern struct m_inode inode_table[NR_INODE];
+extern struct file file_table[NR_FILE];
 extern struct super_block super_block[NR_SUPER];
 extern struct buffer_head * start_buffer;
 extern int nr_buffers;
 
 extern void check_disk_change(int dev);
 extern int floppy_change(unsigned int nr);
+extern struct m_inode * namei(const char * pathname);
+extern struct m_inode * lnamei(const char * pathname);
 extern void iput(struct m_inode * inode);
 extern struct m_inode * iget(int dev, int nr);
 extern struct m_inode * get_empty_inode(void);
