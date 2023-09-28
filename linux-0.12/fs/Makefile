@@ -8,7 +8,8 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 	$(CC) $(CFLAGS) \
 	-c -o $*.o $<
 
-OBJS	= bitmap.o buffer.o exec.o file_table.o inode.o namei.o super.o truncate.o
+OBJS	= bitmap.o buffer.o exec.o file_table.o inode.o namei.o super.o truncate.o \
+	block_dev.o
 
 fs.o: $(OBJS)
 	$(LD)  $(LDFLAGS) -r -o fs.o $(OBJS)
@@ -27,6 +28,11 @@ bitmap.o: bitmap.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/string.h ../include/linux/sched.h ../include/linux/head.h \
  ../include/linux/mm.h ../include/linux/kernel.h ../include/signal.h \
  ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h
+block_dev.o: block_dev.c ../include/linux/fs.h ../include/errno.h \
+ ../include/linux/sched.h ../include/sys/types.h ../include/linux/head.h \
+ ../include/linux/mm.h ../include/linux/kernel.h ../include/signal.h \
+ ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h \
+ ../include/asm/segment.h ../include/asm/system.h
 buffer.o: buffer.c ../include/sys/types.h ../include/linux/fs.h \
  ../include/stdarg.h ../include/linux/config.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
