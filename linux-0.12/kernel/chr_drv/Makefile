@@ -36,9 +36,9 @@ dep:
 
 ### Dependencies:
 console.s console.o: console.c ../../include/linux/sched.h \
- ../../include/linux/head.h ../../include/linux/mm.h \
- ../../include/linux/kernel.h ../../include/signal.h \
- ../../include/sys/types.h ../../include/linux/fs.h \
+ ../../include/sys/types.h ../../include/linux/head.h \
+ ../../include/linux/mm.h ../../include/linux/kernel.h \
+ ../../include/signal.h ../../include/linux/fs.h \
  ../../include/sys/param.h ../../include/sys/time.h \
  ../../include/sys/resource.h ../../include/linux/tty.h \
  ../../include/termios.h ../../include/linux/config.h \

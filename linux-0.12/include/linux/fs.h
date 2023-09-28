@@ -32,6 +32,7 @@
 #define BLOCK_SIZE_BITS 10
 
 #define INODES_PER_BLOCK ((BLOCK_SIZE/(sizeof (struct d_inode))))
+#define DIR_ENTRIES_PER_BLOCK ((BLOCK_SIZE/(sizeof (struct dir_entry))))
 
 
 #define PIPE_HEAD(inode) ((inode).i_zone[0])
@@ -124,11 +125,11 @@ struct d_super_block {
 	unsigned short s_magic;
 };
 
-extern void floppy_on(unsigned int dev);
-extern void floppy_off(unsigned int dev);
-extern void truncate(struct m_inode * inode);
-extern void sync_inodes(void);
-extern int bmap(struct m_inode * inode, int block);
+struct dir_entry {
+	unsigned short inode;
+	char name[NAME_LEN];
+};
+
 
 extern struct m_inode inode_table[NR_INODE];
 extern struct file file_table[NR_FILE];
@@ -138,6 +139,12 @@ extern int nr_buffers;
 
 extern void check_disk_change(int dev);
 extern int floppy_change(unsigned int nr);
+extern void floppy_on(unsigned int dev);
+extern void floppy_off(unsigned int dev);
+extern void truncate(struct m_inode * inode);
+extern void sync_inodes(void);
+extern int bmap(struct m_inode * inode, int block);
+extern int create_block(struct m_inode * inode, int block);
 extern struct m_inode * namei(const char * pathname);
 extern struct m_inode * lnamei(const char * pathname);
 extern void iput(struct m_inode * inode);

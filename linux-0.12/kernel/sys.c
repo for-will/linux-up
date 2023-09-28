@@ -123,7 +123,7 @@ int sys_setregid(int rgid, int egid)
 // 任务有超级用户特权，则真实gid、有效gid和保留gid都被设置成参数指定的gid。
 int sys_setgid(int gid)
 {
-        if (suer())
+        if (suser())
                 current->gid = current->egid = current->sgid = gid;
         else if ((gid == current->gid) || (gid == current->sgid))
                 current->egid = gid;
@@ -216,7 +216,7 @@ int sys_setreuid(int ruid, int euid)
         if (euid > 0) {
                 if ((old_ruid == euid) ||
                     (current->euid == euid) ||
-                    suer()) {
+                    suser()) {
                         current->euid = euid;
                         current->suid = euid;
                 } else {
@@ -548,7 +548,7 @@ int sys_setrlimit(int resource, struct rlimit * rlim)
 
         if (((new.rlim_cur > old->rlim_max) ||
              (new.rlim_max > old->rlim_max)) &&
-            !suer())
+            !suser())
                 return -EPERM;
         *old = new;
         return 0;
@@ -663,7 +663,7 @@ int sys_settimeofday(struct timeval * tv, struct timezone * tz)
 // 设置系统当前时间需要超级用户权限。如果tz指针不空，则设置系统时区信息。即复制用户
 // timezone结构信息到系统中的sys_tz结构中（见第24行）。如果是第1次调用本系统调用
 // 并且参数tv指针还空，则调整系统时钟值。
-        if (!suer())
+        if (!suser())
                 return -EPERM;
         if (tz) {
                 sys_tz.tz_minuteswest = get_fs_long((unsigned long *) tz);

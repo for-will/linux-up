@@ -9,7 +9,7 @@
 #define S_IFIFO  0010000
 #define S_ISUID  0004000
 #define S_ISGID  0002000
-#define S_ISVTX  0001000
+#define S_ISVTX  0001000	/* 对于目录，受限删除标志 */
 
 #define S_ISLNK(m)	(((m) & S_IFMT) == S_IFLNK)
 #define S_ISREG(m)	(((m) & S_IFMT) == S_IFREG)

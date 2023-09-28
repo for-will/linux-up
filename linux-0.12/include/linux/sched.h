@@ -1,6 +1,7 @@
 #ifndef _SCHED_H
 #define _SCHED_H
 
+#include "sys/types.h"
 #define HZ 100
 
 #define NR_TASKS	64
@@ -160,6 +161,7 @@ extern void add_timer(long jiffies, void (*fn)(void));
 extern void sleep_on(struct task_struct ** p);
 extern void interruptible_sleep_on(struct task_struct ** p);
 extern void wake_up(struct task_struct ** p);
+extern int in_group_p(gid_t grp);
 
 /*
  * Entry into gdt where to find first TSS. 0-null, 1-cs, 2-ds, 3-syscall

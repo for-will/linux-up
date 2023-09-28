@@ -39,7 +39,12 @@ inode.o: inode.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
  ../include/signal.h ../include/sys/param.h ../include/sys/time.h \
  ../include/sys/resource.h ../include/asm/system.h
-namei.o: namei.c
+namei.o: namei.c ../include/linux/fs.h ../include/sys/types.h \
+ ../include/linux/sched.h ../include/linux/head.h ../include/linux/mm.h \
+ ../include/linux/kernel.h ../include/signal.h ../include/sys/param.h \
+ ../include/sys/time.h ../include/sys/resource.h ../include/asm/segment.h \
+ ../include/string.h ../include/fcntl.h ../include/errno.h \
+ ../include/const.h ../include/sys/stat.h
 super.o: super.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/linux/config.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
@@ -47,6 +52,6 @@ super.o: super.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/sys/resource.h ../include/asm/system.h ../include/errno.h \
  ../include/sys/stat.h
 truncate.o: truncate.c ../include/linux/fs.h ../include/linux/sched.h \
- ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
- ../include/signal.h ../include/sys/types.h ../include/sys/param.h \
+ ../include/sys/types.h ../include/linux/head.h ../include/linux/mm.h \
+ ../include/linux/kernel.h ../include/signal.h ../include/sys/param.h \
  ../include/sys/time.h ../include/sys/resource.h ../include/sys/stat.h

@@ -95,8 +95,8 @@ sudo apt-get install gcc-multilib g++-multilib
 >对于目录文件，可执行表示可以进入目录
 
 
-### 为什么会出现inode->i_count=0但是inode->i_nlinks>0的m_inode??
-还不知道为什么。
+### 为什么会出现m_inode->i_count=0但是m_inode->i_nlinks>0的m_inode??
+i_count是inode运行时的引用计数,其值等于0时，表示这个m_inode没有进程或程序在使用，如果其中的数据已经回写到了硬盘中（i_dirt=0）则该m_inode可以用来加载其他的inode节点。m_inode只是硬盘中inode数据的在内存中的一个缓存，i_count只在内存中有效，而不会保存到硬盘中。而i_nlinks表示了当前节点在文件系统中被引用的次数，如果i_nlinks=0时，表示该节点已经完全被删除，相应的数据块和inode节点都会被回收。
 
 
 ### `void read_inode(struct m_inode * inode)`读取指定i节点信息
