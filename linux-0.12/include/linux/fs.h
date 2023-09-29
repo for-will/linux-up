@@ -6,6 +6,7 @@
 #ifndef _FS_H
 #define _FS_H
 
+#include "sys/types.h"
 #define READ 0
 #define WRITE 1
 #define READA 2
@@ -89,7 +90,11 @@ struct m_inode {
 };
 
 struct file {
-        unsigned short f_count;
+	unsigned short f_mode;
+	unsigned short f_flags;
+	unsigned short f_count;
+	struct m_inode * f_inode;
+	off_t f_pos;
 };
 
 struct super_block {
