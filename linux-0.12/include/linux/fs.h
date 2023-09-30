@@ -35,9 +35,13 @@
 #define INODES_PER_BLOCK ((BLOCK_SIZE/(sizeof (struct d_inode))))
 #define DIR_ENTRIES_PER_BLOCK ((BLOCK_SIZE/(sizeof (struct dir_entry))))
 
-
+#define PIPE_READ_WAIT(inode) ((inode).i_wait)
+#define PIPE_WRITE_WAIT(inode) ((inode).i_wait2)
 #define PIPE_HEAD(inode) ((inode).i_zone[0])
 #define PIPE_TAIL(inode) ((inode).i_zone[1])
+#define PIPE_SIZE(inode) ((PIPE_HEAD(inode)-PIPE_TAIL(inode))&(PAGE_SIZE-1))
+#define PIPE_EMPTY(inode) (PIPE_HEAD(inode)==PIPE_TAIL(inode))
+#define PIPE_FULL(inode) (PIPE_SIZE(inode)==(PAGE_SIZE-1))
 
 struct buffer_head {
         char * b_data;

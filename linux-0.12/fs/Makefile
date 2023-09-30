@@ -9,7 +9,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 	-c -o $*.o $<
 
 OBJS	= bitmap.o buffer.o exec.o file_table.o inode.o namei.o super.o truncate.o \
-	block_dev.o file_dev.o
+	block_dev.o file_dev.o pipe.o
 
 fs.o: $(OBJS)
 	$(LD)  $(LDFLAGS) -r -o fs.o $(OBJS)
@@ -56,6 +56,12 @@ namei.o: namei.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/sys/time.h ../include/sys/resource.h ../include/asm/segment.h \
  ../include/string.h ../include/fcntl.h ../include/errno.h \
  ../include/const.h ../include/sys/stat.h
+pipe.o: pipe.c ../include/const.h ../include/fcntl.h \
+ ../include/linux/fs.h ../include/sys/types.h ../include/signal.h \
+ ../include/errno.h ../include/termios.h ../include/linux/sched.h \
+ ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
+ ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h \
+ ../include/asm/segment.h
 super.o: super.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/linux/config.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
