@@ -584,7 +584,7 @@ int sys_getrusage(int who, struct rusage * ru)
                 return -EINVAL;
 
         verify_area(ru, sizeof *ru);
-        memset((char *) &r, 0, sizeof(r));      // 在include/strings.h文件最后。
+        _memset((char *) &r, 0, sizeof(r));      // 在include/strings.h文件最后。
 // 若参数who是RUSAGE_SELF，则复制当前进程资源利用信息到r结构中。若指定进程who是
 // RUSAGE_CHILDREN，则复制当前进程的已终止和等待着的子进程资源利用信息到时临时rusage
 // 结构r中。宏CT_TO_SECS和CT_TO_USECS用于把系统当前嘀嗒数转换成用秒值加微秒值表示。

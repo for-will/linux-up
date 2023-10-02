@@ -873,10 +873,10 @@ int sys_mkdir(const char * pathname, int mode)
 // 字段，并置该i节点已修改标志。
 	de = (struct dir_entry *) dir_block->b_data;
 	de->inode = inode->i_num;		// 设置‘.’目录项。
-	strcpy(de->name, ".");
+	_strcpy(de->name, ".");
 	de++;
 	de->inode = dir->i_num;			// 设置‘..’目录项。
-	strcpy(de->name, "..");
+	_strcpy(de->name, "..");
 	inode->i_nlinks = 2;			// i节点关联的目录（文件）项数。
 	dir_block->b_dirt = 1;
 	brelse(dir_block);
@@ -935,7 +935,7 @@ static int empty_dir(struct m_inode * inode)
 // 告信息“设备dev上目录错”，并返回0。
 	de = (struct dir_entry *) bh->b_data;
 	if (de[0].inode != inode->i_num || !de[1].inode ||
-	    strcmp(".", de[0].name) || strcmp("..", de[1].name)) {
+	    _strcmp(".", de[0].name) || _strcmp("..", de[1].name)) {
 		printk("warning - bad directory on dev %04x\n", inode->i_dev);
 		return 0;
 	}

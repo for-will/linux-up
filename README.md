@@ -5,9 +5,10 @@
 [gcc文档](https://gcc.gnu.org/onlinedocs/gcc/Inline.html): GCC does not inline any functions when not optimizing unless you specify the ‘always_inline’ attribute for the function, like this:
 
 
-### `char *`类型的参数会让内联失败
+### `strlen`、`strcpy`等string.h中的函数是`builtin-declaration`
 test2.c:
 ```c
+// 与<string.h>中同名的strlen
 inline int strlen(const char * s)
 {
 register int __res __asm__("cx");
@@ -20,12 +21,30 @@ __asm__("cld\n\t"
 return __res;
 };
 
+// 另一个与strlen实现相同但函数名不再
+inline int _strlen(const char * s)
+{
+register int __res __asm__("cx");
+__asm__("cld\n\t"
+        "repne\n\t"
+        "scasb\n\t"
+        "notl %0\n\t"
+        "decl %0"
+        :"=c" (__res):"D" (s),"a" (0),"0" (0xffffffff):/* "di" */);
+return __res;
+};
 
 int test()
 {
-        int a;
-        a = strlen("aaabb");
-        return a;
+    const char * s;
+    s = "aaabb";
+    int n = 100;
+    if (n != 100)
+        s = "aa";
+    int a = strlen(s);
+    int b = _strlen(s);
+
+    return a + b;
 }
 ```
 
@@ -51,31 +70,29 @@ Disassembly of section .text:
   18:	c3                   	ret
 
 00000019 <test>:
-  19:	b8 05 00 00 00       	mov    $0x5,%eax
-  1e:	c3                   	ret
+  19:	57                   	push   %edi
+  1a:	53                   	push   %ebx
+  1b:	bf 00 00 00 00       	mov    $0x0,%edi
+  20:	b8 00 00 00 00       	mov    $0x0,%eax
+  25:	bb ff ff ff ff       	mov    $0xffffffff,%ebx
+  2a:	89 d9                	mov    %ebx,%ecx
+  2c:	fc                   	cld
+  2d:	f2 ae                	repnz scas %es:(%edi),%al
+  2f:	f7 d1                	not    %ecx
+  31:	49                   	dec    %ecx
+  32:	89 ca                	mov    %ecx,%edx
+  34:	89 d9                	mov    %ebx,%ecx
+  36:	fc                   	cld
+  37:	f2 ae                	repnz scas %es:(%edi),%al
+  39:	f7 d1                	not    %ecx
+  3b:	49                   	dec    %ecx
+  3c:	8d 04 11             	lea    (%ecx,%edx,1),%eax
+  3f:	5b                   	pop    %ebx
+  40:	5f                   	pop    %edi
+  41:	c3                   	ret
 ```
+因为strlen与c标准函数声明相同，所以会多一个非内联的strlen函数定义（实现）。string.h会被多个c文件包含，所以同一个函数会在每个包含该头文件的c文件中有一个相应的定义（实现），这在链接的时候会报错`multiple definition`。因此我把include/string.h中的所有函数的前面都加上了一个下划线。
 
-将strlen声明为`inline int strlen(const unsigned char * s)`则能成功内联：
-```
-
-test2.o:     file format elf32-i386
-
-
-Disassembly of section .text:
-
-00000000 <test>:
-   0:	57                   	push   %edi
-   1:	b9 ff ff ff ff       	mov    $0xffffffff,%ecx
-   6:	bf 00 00 00 00       	mov    $0x0,%edi
-   b:	b8 00 00 00 00       	mov    $0x0,%eax
-  10:	fc                   	cld
-  11:	f2 ae                	repnz scas %es:(%edi),%al
-  13:	f7 d1                	not    %ecx
-  15:	49                   	dec    %ecx
-  16:	89 c8                	mov    %ecx,%eax
-  18:	5f                   	pop    %edi
-  19:	c3                   	ret
-```
 
 ### Ubuntu 64上的GCC编译32位程序
 

@@ -3,7 +3,7 @@
 
 
 /* extern inline char * strcpy(char * dest, const char * src) */
-inline char * strcpy(unsigned char * dest, const unsigned char * src)
+inline char * _strcpy(char * dest, const char * src)
 {
 __asm__("cld\n"
  	"1:\tlodsb\n\t"
@@ -14,8 +14,23 @@ __asm__("cld\n"
 return dest;
 }
 
+/* extern inline char * strcat(char * dest, const char * src) */
+inline char * _strcat(char * dest, const char * src)
+{
+__asm__("cld\n\t"
+	"repne\n\t"
+	"scasb\n\t"
+	"decl %1\n"
+	"1:\tlodsb\n\t"
+	"stosb\n\t"
+	"testb %%al,%%al\n\t"
+	"jne 1b"
+::"S" (src),"D" (dest),"a" (0),"c" (0xffffffff):/* "si","di","ax","cx" */);
+return dest;
+}
+
 /* extern inline int strcmp(const char * cs, const char * ct) */
-inline int strcmp(const unsigned char * cs, const unsigned char * ct)
+inline int _strcmp(const char * cs, const char * ct)
 {
 register int __res __asm__("ax");	
 __asm__("cld\n"
@@ -34,8 +49,8 @@ __asm__("cld\n"
 return __res;
 }
 
-/* extern */ 
-static inline int strncmp(const char * cs, const char * ct, int count)
+/* extern inline int strncmp(const char * cs, const char * ct, int count) */
+inline int _strncmp(const char * cs, const char * ct, int count)
 {
 register int __res __asm__("ax");	
 __asm__("cld\n"
@@ -56,8 +71,8 @@ __asm__("cld\n"
 return __res;
 }
 
-/* extern */
-inline int strlen(const unsigned char * s)
+/* extern inline int strlen(const char * s) */
+inline int _strlen(const char * s)
 {
 register int __res __asm__("cx");
 __asm__("cld\n\t"
@@ -69,8 +84,8 @@ __asm__("cld\n\t"
 return __res;
 }
 
-/* extern */
-inline void * memset(void * s, char c, int count)
+/* extern inline void * memset(void * s, char c, int count) */
+inline void * _memset(void * s, char c, int count)
 {
 	__asm__("cld\n\t"
 		"rep\n\t"

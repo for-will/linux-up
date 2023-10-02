@@ -335,7 +335,7 @@ struct m_inode * get_empty_inode(void)
 // 如果i节点又被其他占用的话（i节点的计数值不为0了），则需要重新寻找空闲i节点。否则
 // 说明已找到符合要求的空闲i节点项。则将该i节点项内容清零，并置引用计数为1，返回该
 // i节点指针。
-	memset(inode, 0, sizeof(*inode));
+	_memset(inode, 0, sizeof(*inode));
 	inode->i_count = 1;
 	return inode;
 }
