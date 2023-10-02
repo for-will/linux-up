@@ -21,7 +21,7 @@ __asm__("cld\n\t"
 return __res;
 };
 
-// 另一个与strlen实现相同但函数名不再
+// 另一个与strlen实现相同但函数名不同
 inline int _strlen(const char * s)
 {
 register int __res __asm__("cx");
