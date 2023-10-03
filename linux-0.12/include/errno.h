@@ -7,6 +7,7 @@
 #define ESRCH            3
 #define EINTR            4
 #define EIO		 5
+#define EBADF		 9
 #define ECHILD          10
 #define EAGAIN          11
 #define ENOMEM          12
@@ -21,6 +22,7 @@
 #define EINVAL          22
 #define ENOTTY		25
 #define ENOSPC		28
+#define ESPIPE		29
 #define ENOSYS          38
 #define ENOTEMPTY	39
 

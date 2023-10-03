@@ -6,7 +6,23 @@
 #ifndef _FS_H
 #define _FS_H
 
-#include "sys/types.h"
+#include <sys/types.h>
+
+/* devices are as follows: (same as minix, so we can use the minix
+ * file system. These are major numbers.)
+ *
+ * 0 - unused (nodev)
+ * 1 - /dev/mem
+ * 2 - /dev/fd
+ * 3 - /dev/hd
+ * 4 - /dev/ttyx
+ * 5 - /dev/tty
+ * 6 - /dev/lp
+ * 7 - unnamed pipes
+ */
+
+#define IS_SEEKABLE(x) ((x)>=1 && (x)<=3)
+
 #define READ 0
 #define WRITE 1
 #define READA 2
