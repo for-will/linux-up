@@ -18,7 +18,7 @@ extern int tty_read(unsigned minor, char * buf, int count); // 终端读。
 extern int tty_write(unsigned minor, char *buf, int count); // 张总写。
 
 // 定义字符设备读写函数指针类型。
-typedef (*crw_ptr)(int rw, unsigned minor, char * buf, int count, off_t * pos);
+typedef int (*crw_ptr)(int rw, unsigned minor, char * buf, int count, off_t * pos);
 
 /// 串口终端读写操作函数。
 // 参数：rw - 读写命令；minor - 终端子设备号；buf - 缓冲区；count - 读写字节数；

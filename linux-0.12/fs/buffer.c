@@ -155,7 +155,7 @@ inline void invalidate_buffers(int dev)
  * This routine checks whether a floppy has been changed, and
  * invalidates all buffer-cache-entries in that case. This
  * is a relatively slow routine, so we have to try to minimize using
- * it. Thus it is called only upon a 'mout' or 'open'. This
+ * it. Thus it is called only upon a 'mount' or 'open'. This
  * is best way of comgining speed and utility, I think.
  * People changing diskettes in the middle of an operation deserve
  * to loose :-)

@@ -13,10 +13,21 @@ typedef long time_t;
 
 typedef int pid_t;
 typedef unsigned short gid_t;
+typedef unsigned short dev_t;
+typedef unsigned short ino_t;
+typedef unsigned short mode_t;
+typedef int daddr_t;
 typedef long off_t;
 
 typedef unsigned char cc_t;
 typedef unsigned int speed_t;
 typedef unsigned long tcflag_t;
+
+struct ustat {
+	daddr_t f_tfree;
+	ino_t f_tinode;
+	char f_fname[6];
+	char f_fpack[6];
+};
 
 #endif

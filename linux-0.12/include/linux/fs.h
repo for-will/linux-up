@@ -172,6 +172,8 @@ extern int bmap(struct m_inode * inode, int block);
 extern int create_block(struct m_inode * inode, int block);
 extern struct m_inode * namei(const char * pathname);
 extern struct m_inode * lnamei(const char * pathname);
+extern int open_namei(const char * pathname, int flag, int mode,
+		      struct m_inode ** res_inode);
 extern void iput(struct m_inode * inode);
 extern struct m_inode * iget(int dev, int nr);
 extern struct m_inode * get_empty_inode(void);
