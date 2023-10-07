@@ -32,6 +32,10 @@
 #define TASK_ZOMBIE		3
 #define TASK_STOPPED		4
 
+
+extern int copy_page_tables(unsigned long from, unsigned long to, long size);
+extern int free_page_tables(unsigned long from, unsigned long size);
+
 extern void sched_init(void);
 extern void schedule(void);
 extern void panic(const char * str);
@@ -218,7 +222,7 @@ __asm__("movw %%dx,%0\n\t" \
 	::"m" (*(addr)), \
 	  "m" (*((addr)+6)), \
 	  "d" (limit) \
-	:"dx")
+	/* :"dx" */)
 
 #define set_base(ldt, base) _set_base( ((char *)&(ldt)) , base )
 #define set_limit(ldt, limit) _set_limit( ((char *)&(ldt)) , (limit-1)>>12 )
@@ -238,7 +242,7 @@ __asm__("movb %3,%%dh\n\t" \
 	 "m" (*((addr)+7))); \
 __base;})
 
-#define get_base(ldt) _get_base( ((char *) &(ldt)))
+#define get_base(ldt) _get_base(((char *) &(ldt)))
 
 
 // LSL:Load Segment Limit

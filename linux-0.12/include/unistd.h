@@ -60,4 +60,8 @@ return -1; \
 
 extern int errno;
 
+void exit(int status) __attribute__((noreturn));
+void _exit(int status) __attribute__((noreturn));
+
+
 #endif

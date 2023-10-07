@@ -12,6 +12,7 @@ extern int SWAP_DEV;
 #define write_swap_page(nr, buffer) ll_rw_page(WRITE, SWAP_DEV, (nr), (buffer));
 
 extern unsigned long get_free_page(void);
+extern unsigned long put_dirty_page(unsigned long page, unsigned long address);
 extern void free_page(unsigned long addr);
 void swap_free(int page_nr);
 void swap_in(unsigned long *table_ptr);

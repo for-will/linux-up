@@ -66,7 +66,6 @@ void free_page(unsigned long addr)
 // 首先判断参数张鹏宇的物理地址addr的合理性。如果物理地址addr小于内存低端（1MB），则表
 // 示在内核程序或调整缓冲中，对此不予处理；如果物理地址addr >= 系统所含物理内存最高端，
 // 则显示出错信息并且内核停止工作。
-	//
 	if (addr < LOW_MEM) return;	// LOW_MEM = 1MB，定义在include/linux/mm.h中。
 	if (addr >= HIGH_MEMORY)
 		panic("trying to free nonexistent page");
@@ -301,7 +300,6 @@ static unsigned long put_page(unsigned long page, unsigned long address)
 // 定义。它是主内存区可能有最小起始位置。当系统物理内存小于或等于6MB时，主内存区就直
 // 接起始于LOW_MEM处。再查看一下该page页面是否是已经申请的页面，即判断其在内存页面映
 // 射字节图mem_map[]中术字节是否已经置位，若没有则需发出警告。
-	//
 	if (page < LOW_MEM || page >= HIGH_MEMORY)
 		printk("Trying to put page %p at %p\n", page, address);
 	if (mem_map[(page-LOW_MEM)>>12] != 1)
@@ -348,7 +346,6 @@ unsigned long put_dirty_page(unsigned long page, unsigned long address)
 
 /* NOTE !!! This uses the fact that _pg_dir=0 */	
 
-	//
 	if (page < LOW_MEM || page >= HIGH_MEMORY)
 		printk("Trying to put page %p at %p\n", page, address);
 	if (mem_map[(page-LOW_MEM)>>12] != 1)
