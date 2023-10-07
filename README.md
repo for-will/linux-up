@@ -1,8 +1,30 @@
 
 
+# 《Linux 内核0.12 完全注释》学习笔记
+代码中的注释几乎都来源于[《Linux 内核0.12 完全注释》](http://www.oldlinux.org/download/CLK-5.0-WithCover.pdf)这本书中。为了能在现代的操作系统下使用GCC进行编译，对部分代码进行了修改（主要是一些语法的改变）。
+
+
+### gcc --version
+安装：`brew install x86_64-elf-binutils x86_64-elf-gcc`
+版本信息：
+```sh
+# x86_64-elf-gcc --version
+x86_64-elf-gcc (GCC) 13.1.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+# x86_64-elf-ld --version
+GNU ld (GNU Binutils) 2.40
+Copyright (C) 2023 Free Software Foundation, Inc.
+This program is free software; you may redistribute it under the terms of
+the GNU General Public License version 3 or (at your option) a later version.
+This program has absolutely no warranty.
+```
+
 
 ### GCC如果编译没有指定优化，内联函数不会内联
-[gcc文档](https://gcc.gnu.org/onlinedocs/gcc/Inline.html): GCC does not inline any functions when not optimizing unless you specify the ‘always_inline’ attribute for the function, like this:
+[gcc文档](https://gcc.gnu.org/onlinedocs/gcc/Inline.html): GCC does not inline any functions when not optimizing unless you specify the ‘always_inline’ attribute for the function, .....
 
 
 ### `strlen`、`strcpy`等string.h中的函数是`builtin-declaration`
@@ -126,3 +148,7 @@ i_count是inode运行时的引用计数,其值等于0时，表示这个m_inode�
 
 ### super_block中的内存分配和回收
 在`read_super`中为`s_imap`和`s_zmap`分配的buffer，将会在`put_super`中进行释放。
+
+
+### do_execve中内核为何可以直接访问为get_free_page分配的内存空间
+`copy_string()`复制字符串到进程的参数和环境空间中，其实是复制到page指向的32个内存页中。这32个内存页事先也并没有分配，而是在`copy_string()`中通过调用`get_free_page()`进行分配，并保存返回的地址到page数组中。而`get_free_page()`返回的实际是物理地址，但是在`copy_string()`函数中却能直接访问该内存地址，这是因为内存在初始化时将16MB的物理地址与16MB的逻辑地址一一映射，所以在内核代码中逻辑地址和物理地址相同。这部分的代码在head.s的`setup_paging`小节中。而保存在page中的页物理地址会在`change_ldt()`中映射到数据段的最项端，真正成为用户进程的内存。并且位于栈空间的上面。

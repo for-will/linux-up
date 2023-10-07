@@ -31,8 +31,8 @@ dep:
 	cp tmp_make Makefile
 
 ### Dependencies:
-memory.o: memory.c ../include/linux/fs.h ../include/linux/mm.h \
- ../include/linux/kernel.h ../include/signal.h ../include/sys/types.h \
+memory.o: memory.c ../include/linux/fs.h ../include/sys/types.h \
+ ../include/linux/mm.h ../include/linux/kernel.h ../include/signal.h \
  ../include/asm/system.h ../include/linux/sched.h ../include/linux/head.h \
  ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h
 swap.o: swap.c ../include/linux/fs.h ../include/sys/types.h \

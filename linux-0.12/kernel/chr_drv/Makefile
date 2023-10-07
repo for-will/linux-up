@@ -66,11 +66,11 @@ tty_io.s tty_io.o: tty_io.c ../../include/sys/types.h ../../include/termios.h \
  ../../include/sys/param.h ../../include/sys/time.h \
  ../../include/sys/resource.h ../../include/linux/tty.h \
  ../../include/asm/segment.h ../../include/asm/system.h
-tty_ioctl.s tty_ioctl.o: tty_ioctl.c ../../include/linux/fs.h ../../include/signal.h \
- ../../include/sys/types.h ../../include/errno.h ../../include/termios.h \
- ../../include/linux/sched.h ../../include/linux/head.h \
- ../../include/linux/mm.h ../../include/linux/kernel.h \
- ../../include/sys/param.h ../../include/sys/time.h \
- ../../include/sys/resource.h ../../include/linux/tty.h \
- ../../include/asm/io.h ../../include/asm/segment.h \
- ../../include/asm/system.h
+tty_ioctl.s tty_ioctl.o: tty_ioctl.c ../../include/linux/fs.h \
+ ../../include/sys/types.h ../../include/signal.h ../../include/errno.h \
+ ../../include/termios.h ../../include/linux/sched.h \
+ ../../include/linux/head.h ../../include/linux/mm.h \
+ ../../include/linux/kernel.h ../../include/sys/param.h \
+ ../../include/sys/time.h ../../include/sys/resource.h \
+ ../../include/linux/tty.h ../../include/asm/io.h \
+ ../../include/asm/segment.h ../../include/asm/system.h

@@ -174,7 +174,7 @@ setup_gdt:
 ; using 4 of them to span 16 Mb of physical memory. People with
 ; more than 16MB will havt to expand this.
 ; Linus将内核的内存表直接放在页目录之后，使用了4个表来寻址16MB的物理内存。
-; 如果你有多玩16MB的内存，就需要在这里进行扩充修改。
+; 如果你有多余16MB的内存，就需要在这里进行扩充修改。
 
 ; 每个页表长度为4KB（一页内存页面），而每个页表项需要4个字节，因此一个页表共可以存放
 ; 1024个表项。如果一个页表项寻址4KB的地址空间，则一个页表就可以寻址4MB的物理内存。
@@ -196,7 +196,7 @@ pg3:
 
 times 0x5000-($-$$) db 0        ; 定义下面的内存数据块从0x5000处开始
 ;
-; tmp_floppy_area is used by the ploppy-driver when DMA cannot
+; tmp_floppy_area is used by the floppy-driver when DMA cannot
 ; reach to a buffer-block. It needs to be aligned, so that it isn't
 ; on a 64KB border.
 ; 当DMA（直接存储器访问）不能访问缓冲块时，下面的tmp_floppy_area内存块
@@ -276,7 +276,7 @@ ignore_int:
 ; some kind of marker at them (search for "16Mb"), but I
 ; won't guarantee that's all :-( )
 ; 上面英文注释第2段的含义是指在机器物理内存中大于 1MB的内存空间要被用于主内存区。
-; 主内存空间mhmm模块管理。它涉及到页面映射操作。内核中所有其他函数就是这里指的一般
+; 主内存空间由mm模块管理。它涉及到页面映射操作。内核中所有其他函数就是这里指的一般
 ; (普通)函数。若要使用主内存区的页面，就需要使用get_free_page()等函数获取。因为主内
 ; 存区中内存页面是共享资源，必须有程序进行统一管理以避免资源争用和竞争。
 ; 
