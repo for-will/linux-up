@@ -21,6 +21,7 @@
 #define ENOTDIR		20
 #define EISDIR		21
 #define EINVAL          22
+#define EMFILE		24
 #define ENOTTY		25
 #define ENOSPC		28
 #define ESPIPE		29

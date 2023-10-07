@@ -1,12 +1,13 @@
 
 
 # 《Linux 内核0.12 完全注释》学习笔记
+
 代码中的注释几乎都来源于[《Linux 内核0.12 完全注释》](http://www.oldlinux.org/download/CLK-5.0-WithCover.pdf)这本书中。为了能在现代的操作系统下使用GCC进行编译，对部分代码进行了修改（主要是一些语法的改变）。
 
-
-### gcc --version
-安装：`brew install x86_64-elf-binutils x86_64-elf-gcc`
-版本信息：
+---
+### 使用的GCC的版本
+* 安装：`brew install x86_64-elf-binutils x86_64-elf-gcc`
+* 版本信息：
 ```sh
 # x86_64-elf-gcc --version
 x86_64-elf-gcc (GCC) 13.1.0

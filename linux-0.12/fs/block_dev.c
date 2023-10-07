@@ -28,7 +28,6 @@ int block_write(int dev, long * pos, char * buf, int count)
 {
 // 首先由文件中位置pos换算成开始读写盘块的块序号，并未出需写第1字节在该块中的偏
 // 移位置offset。
-	//
 	int block = *pos >> BLOCK_SIZE_BITS;	// pos所在文件数据块号。
 	int offset = *pos & (BLOCK_SIZE-1);	// pos在数据块中偏移值。
 	int chars;

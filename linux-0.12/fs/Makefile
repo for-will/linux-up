@@ -9,7 +9,7 @@ CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 	-c -o $*.o $<
 
 OBJS	= bitmap.o buffer.o exec.o file_table.o inode.o namei.o super.o truncate.o \
-	block_dev.o file_dev.o pipe.o char_dev.o read_write.o open.o stat.o
+	block_dev.o file_dev.o pipe.o char_dev.o read_write.o open.o stat.o fcntl.o
 
 fs.o: $(OBJS)
 	$(LD)  $(LDFLAGS) -r -o fs.o $(OBJS)
@@ -49,6 +49,12 @@ exec.o: exec.c ../include/sys/types.h ../include/signal.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
  ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h \
  ../include/asm/segment.h
+fcntl.o: fcntl.c ../include/linux/fs.h ../include/sys/types.h \
+ ../include/string.h ../include/errno.h ../include/linux/sched.h \
+ ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
+ ../include/signal.h ../include/sys/param.h ../include/sys/time.h \
+ ../include/sys/resource.h ../include/asm/segment.h ../include/fcntl.h \
+ ../include/sys/stat.h
 file_dev.o: file_dev.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/errno.h ../include/fcntl.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
