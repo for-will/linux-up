@@ -38,6 +38,7 @@ extern int free_page_tables(unsigned long from, unsigned long size);
 
 extern void sched_init(void);
 extern void schedule(void);
+extern void trap_init(void);
 extern void panic(const char * str);
 extern int tty_write(unsigned minor, char * buf, int count);
 

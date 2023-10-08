@@ -1,6 +1,7 @@
 #ifndef _UNISTD_H
 #define _UNISTD_H
 
+#include "sys/types.h"
 #define _POSIX_VDISABLE '\0'	/* character to disable things like ^C */
 
 #ifdef __LIBRARY__
@@ -60,8 +61,18 @@ return -1; \
 
 extern int errno;
 
+int close(int fildes);
+int creat(const char * filename, mode_t mode);
+int dup(int fildes);
+int execve(const char * filename, char ** argv, char ** envp);
+int execv(const char * pathname, char ** argv);
 void exit(int status) __attribute__((noreturn));
 void _exit(int status) __attribute__((noreturn));
+int open(const char * filename, int flag, ...);
+pid_t wait(int * wait_stat);
+int write(int fildes, const char * buf, off_t count);
+int dup2(int oldfd, int newfd);
+pid_t setsid(void);
 
 
 #endif

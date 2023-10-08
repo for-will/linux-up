@@ -28,6 +28,8 @@
 #define READA 2
 #define WRITEA 3
 
+void buffer_init(long buffer_end);
+
 #define MAJOR(a) (((unsigned)(a))>>8)
 #define MINOR(a) ((a)&0xff)
 

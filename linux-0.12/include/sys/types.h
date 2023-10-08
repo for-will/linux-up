@@ -26,6 +26,8 @@ typedef unsigned char cc_t;
 typedef unsigned int speed_t;
 typedef unsigned long tcflag_t;
 
+typedef unsigned long fd_set;
+
 struct ustat {
 	daddr_t f_tfree;
 	ino_t f_tinode;

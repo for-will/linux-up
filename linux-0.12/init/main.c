@@ -69,7 +69,8 @@ static inline _syscall0(int,sync)
 static char printbuf[1024];             // 表态字符串数组，用作内核显示信息的缓存。
 
 extern char *strcpy();                  // 外部函数或变量，定义在别处。
-extern int vsprintf();                  // 送格式化输出到字符串中（vsprintf.c,92行）。
+/* extern int vsprintf();                  // 送格式化输出到字符串中（vsprintf.c,92行）。 */
+extern int vsprintf(char * buf, const char * fmt, va_list args);
 extern void init(void);                 // 函数原形，初始化（本程序168行）。
 extern void blk_dev_init(void);         // 块设备初始化程序（blk_drv/ll_rw_blk.c,210行）
 extern void chr_dev_init();             // 字符设备初始化（chr_drv/tty_io.c,402行）
@@ -116,7 +117,7 @@ static int sprintf(char * str, const char *fmt, ...)
 
 // 这段宏读取CMOS实时时钟信息。outb_p和inb_p是include/asm/io.h中定义的端口输入输出宏。
 // 0x70是写地址端口号，0x71是读数据端口号。0x80|addr是要读取的CMOS内存地址。
-// #define CMOS_READ(addr) ({ \
+// #define CMOS_READ(addr) ({ \		   //
 // outb_p(0x80|addr, 0x70); \              // 向端口0x70输出要读取的CMOS内存位置（0x80|addr）。
 // inb_p(0x71); \                          // 从端口0x71读取1字节，返回该字节。
 // })
