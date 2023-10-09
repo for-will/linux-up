@@ -12,6 +12,7 @@
 #define __NR_write	4
 #define __NR_open	5
 #define __NR_close	6
+#define __NR_waitpid	7
 #define __NR_execve	11
 #define __NR_pause	29
 #define __NR_sync	36

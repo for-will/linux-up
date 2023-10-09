@@ -81,11 +81,11 @@ dep:
 
 
 ### Dependencies:
-init/main.o: init/main.c include/unistd.h include/time.h include/linux/tty.h \
- include/termios.h include/sys/types.h include/linux/sched.h \
- include/linux/head.h include/linux/mm.h include/linux/kernel.h \
- include/signal.h include/linux/fs.h include/sys/param.h \
- include/sys/time.h include/sys/resource.h include/asm/system.h \
- include/asm/io.h include/stddef.h include/stdarg.h include/fcntl.h \
- include/string.h
+init/main.o: init/main.c include/unistd.h include/sys/types.h include/time.h \
+ include/linux/tty.h include/termios.h include/sys/types.h \
+ include/linux/sched.h include/linux/head.h include/linux/mm.h \
+ include/linux/kernel.h include/signal.h include/linux/fs.h \
+ include/sys/param.h include/sys/time.h include/sys/resource.h \
+ include/asm/system.h include/asm/io.h include/stddef.h include/stdarg.h \
+ include/fcntl.h include/string.h
 init/main0.o: init/main0.c

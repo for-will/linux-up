@@ -39,6 +39,7 @@ open.s open.o: open.c ../include/unistd.h ../include/sys/types.h \
  ../include/stdarg.h
 setsid.s setsid.o: setsid.c ../include/unistd.h ../include/sys/types.h
 string.s string.o: string.c ../include/string.h
-wait.s wait.o: wait.c ../include/sys/wait.h ../include/sys/types.h
+wait.s wait.o: wait.c ../include/unistd.h ../include/sys/types.h \
+ ../include/sys/wait.h ../include/sys/types.h
 write.s write.o: write.c ../include/unistd.h ../include/sys/types.h \
  ../include/sys/types.h
