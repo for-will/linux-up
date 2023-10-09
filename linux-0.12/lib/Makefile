@@ -35,7 +35,8 @@ errno.s errno.o: errno.c
 execve.s execve.o: execve.c ../include/unistd.h ../include/sys/types.h
 malloc.s malloc.o: malloc.c ../include/linux/kernel.h ../include/linux/mm.h \
  ../include/signal.h ../include/sys/types.h ../include/asm/system.h
-open.s open.o: open.c
+open.s open.o: open.c ../include/unistd.h ../include/sys/types.h \
+ ../include/stdarg.h
 setsid.s setsid.o: setsid.c ../include/unistd.h ../include/sys/types.h \
  ../include/sys/types.h
 wait.s wait.o: wait.c ../include/sys/wait.h ../include/sys/types.h
