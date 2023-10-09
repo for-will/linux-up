@@ -7,6 +7,7 @@
 #ifdef __LIBRARY__
 
 #define __NR_setup	0	/* used only by init, to get system going */
+#define __NR_exit	1
 #define __NR_fork	2
 #define __NR_write	4
 #define __NR_open	5
