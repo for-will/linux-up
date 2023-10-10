@@ -37,7 +37,7 @@ int sys_ftime()
         return -ENOSYS;
 }
 
-int sys_berak()
+int sys_break()
 {
         return -ENOSYS;
 }
