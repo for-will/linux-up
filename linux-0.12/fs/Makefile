@@ -86,7 +86,7 @@ open.o: open.c ../include/linux/fs.h ../include/sys/types.h \
  ../include/sys/time.h ../include/sys/resource.h ../include/linux/tty.h \
  ../include/asm/segment.h
 pipe.o: pipe.c ../include/const.h ../include/fcntl.h \
- ../include/linux/fs.h ../include/sys/types.h ../include/signal.h \
+ ../include/sys/types.h ../include/linux/fs.h ../include/signal.h \
  ../include/errno.h ../include/termios.h ../include/linux/sched.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
  ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h \
