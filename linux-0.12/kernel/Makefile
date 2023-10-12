@@ -70,10 +70,12 @@ sys.s sys.o: sys.c ../include/errno.h ../include/linux/sched.h \
  ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h \
  ../include/linux/tty.h ../include/termios.h ../include/linux/config.h \
  ../include/asm/segment.h ../include/sys/times.h ../include/sys/utsname.h \
- ../include/string.h
-traps.s traps.o: traps.c ../include/string.h ../include/linux/head.h \
- ../include/linux/sched.h ../include/sys/types.h ../include/linux/mm.h \
- ../include/linux/kernel.h ../include/signal.h ../include/linux/fs.h \
- ../include/sys/param.h ../include/sys/time.h ../include/sys/resource.h \
- ../include/asm/system.h ../include/asm/segment.h ../include/asm/io.h
-vsprintf.s vsprintf.o: vsprintf.c ../include/stdarg.h ../include/string.h
+ ../include/string.h ../include/stddef.h
+traps.s traps.o: traps.c ../include/string.h ../include/stddef.h \
+ ../include/linux/head.h ../include/linux/sched.h ../include/sys/types.h \
+ ../include/linux/mm.h ../include/linux/kernel.h ../include/signal.h \
+ ../include/linux/fs.h ../include/sys/param.h ../include/sys/time.h \
+ ../include/sys/resource.h ../include/asm/system.h \
+ ../include/asm/segment.h ../include/asm/io.h
+vsprintf.s vsprintf.o: vsprintf.c ../include/stdarg.h ../include/string.h \
+ ../include/stddef.h

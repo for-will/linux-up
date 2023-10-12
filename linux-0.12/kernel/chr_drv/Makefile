@@ -43,7 +43,8 @@ console.s console.o: console.c ../../include/linux/sched.h \
  ../../include/sys/resource.h ../../include/linux/tty.h \
  ../../include/termios.h ../../include/linux/config.h \
  ../../include/asm/io.h ../../include/asm/system.h \
- ../../include/asm/segment.h ../../include/string.h ../../include/errno.h
+ ../../include/asm/segment.h ../../include/string.h \
+ ../../include/stddef.h ../../include/errno.h
 pty.s pty.o: pty.c ../../include/linux/kernel.h ../../include/linux/tty.h \
  ../../include/termios.h ../../include/sys/types.h \
  ../../include/linux/sched.h ../../include/linux/head.h \
