@@ -5,6 +5,7 @@ LDFLAGS	=-m elf_i386
 CC	=x86_64-elf-gcc -m32 -march=i386
 CFLAGS	=-Wall -O -fomit-frame-pointer -finline-functions -nostdinc -I../include
 CPP	=x86_64-elf-gcc -E -nostdinc -I../include
+DBGFLAGS=-g
 
 ARCHIVES=kernel/kernel.o mm/mm.o fs/fs.o
 DRIVERS	=kernel/blk_drv/blk_drv.a kernel/chr_drv/chr_drv.a
@@ -16,7 +17,7 @@ LIBS	=lib/lib.a
 	$@ $<
 
 %.o: 
-	$(CC) $(CFLAGS) -c -o \
+	$(CC) $(DBGFLAGS) $(CFLAGS) -c -o \
 	$@ $<
 
 ## kernel/math/math.a
@@ -99,7 +100,7 @@ bin/system: boot/head.o init/main.o $(ARCHIVES) $(DRIVERS) $(MATH) $(LIBS)
 	-o bin/system
 
 boot/head.o: ../boot/head.nasm
-	nasm -f elf32 -o $@ $<
+	nasm $(DBGFLAGS) -f elf32 -o $@ $<
 
 kernel/math/math.a: $(MATHOBJS)
 	$(AR) rcs $@ $^
