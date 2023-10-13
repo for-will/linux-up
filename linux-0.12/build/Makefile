@@ -177,6 +177,17 @@ dep:
 		$(CPP) -M $$i;done) >> tmp_make
 	cp tmp_make Makefile
 
+## 使用for循环生成所有的deps
+deps:
+	sed '/\#\#\# Dependencies/q' < Makefile > tmp_make
+	(for d in init kernel/math kernel/blk_drv kernel/chr_drv kernel mm fs lib; do \
+		for i in ../$$d/*.c; do \
+			/bin/echo -n "$$d/"; \
+			$(CPP) -M $$i; \
+		done; \
+	done) >> tmp_make
+	cp tmp_make Makefile
+
 ### Dependencies:
 init/main.o: ../init/main.c ../include/unistd.h ../include/sys/types.h \
  ../include/stddef.h ../include/sys/stat.h ../include/sys/types.h \
