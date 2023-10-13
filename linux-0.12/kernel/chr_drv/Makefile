@@ -61,11 +61,13 @@ serial.s serial.o: serial.c ../../include/linux/tty.h ../../include/termios.h \
  ../../include/asm/system.h ../../include/asm/io.h
 tty_io.s tty_io.o: tty_io.c ../../include/sys/types.h ../../include/termios.h \
  ../../include/ctype.h ../../include/errno.h ../../include/signal.h \
- ../../include/unistd.h ../../include/sys/types.h \
- ../../include/linux/kernel.h ../../include/linux/sched.h \
- ../../include/linux/head.h ../../include/linux/mm.h \
- ../../include/linux/fs.h ../../include/sys/param.h \
- ../../include/sys/time.h ../../include/sys/resource.h \
+ ../../include/unistd.h ../../include/sys/types.h ../../include/stddef.h \
+ ../../include/sys/stat.h ../../include/sys/time.h \
+ ../../include/sys/times.h ../../include/sys/utsname.h \
+ ../../include/sys/param.h ../../include/sys/resource.h \
+ ../../include/utime.h ../../include/linux/kernel.h \
+ ../../include/linux/sched.h ../../include/linux/head.h \
+ ../../include/linux/mm.h ../../include/linux/fs.h \
  ../../include/linux/tty.h ../../include/asm/segment.h \
  ../../include/asm/system.h
 tty_ioctl.s tty_ioctl.o: tty_ioctl.c ../../include/linux/fs.h \

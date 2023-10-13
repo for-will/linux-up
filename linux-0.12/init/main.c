@@ -40,10 +40,14 @@
 // int pause()系统调用：暂停进程的执行，直到收到一个信号。
 // int setup(void * BIOS)系统调用，仅用于linux初始化（仅在这个程序中被调用）。
 // int sync()系统调用：更新文件系统。
-static inline _syscall0(int,fork)
-static inline _syscall0(int,pause)
-static inline _syscall1(int,setup,void *,BIOS)
-static inline _syscall0(int,sync)
+/* static */
+inline _syscall0(int,fork)
+/* static */
+inline _syscall0(int,pause)
+/* static */
+inline _syscall1(int,setup,void *,BIOS)
+/* static */
+inline _syscall0(int,sync)
 
 #include <linux/tty.h>          // tty头文件，定义了有关tty_io，串行通信方面的参数、常数。
 #include <linux/sched.h>        // 调度程序头文件，定义了任务结构 task_struct、第1个被始任务

@@ -57,8 +57,9 @@ sched.s sched.o: sched.c ../include/linux/sched.h ../include/sys/types.h \
  ../include/signal.h ../include/linux/fs.h ../include/sys/param.h \
  ../include/sys/time.h ../include/sys/resource.h ../include/linux/sys.h \
  ../include/a.out.h ../include/unistd.h ../include/sys/types.h \
- ../include/linux/fdreg.h ../include/asm/system.h ../include/asm/io.h \
- ../include/asm/segment.h
+ ../include/stddef.h ../include/sys/stat.h ../include/sys/times.h \
+ ../include/sys/utsname.h ../include/utime.h ../include/linux/fdreg.h \
+ ../include/asm/system.h ../include/asm/io.h ../include/asm/segment.h
 signal.s signal.o: signal.c ../include/linux/sched.h ../include/sys/types.h \
  ../include/linux/head.h ../include/linux/mm.h ../include/linux/kernel.h \
  ../include/signal.h ../include/linux/fs.h ../include/sys/param.h \
