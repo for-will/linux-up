@@ -7,6 +7,6 @@ typedef struct desc_struct {
 
 extern unsigned long pg_dir[1024];
 
-extern desc_table _idt,gdt;
+extern desc_table idt, gdt;
 
 #endif
