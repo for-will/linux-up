@@ -1,9 +1,9 @@
 AR	=x86_64-elf-ar
 AS	=x86_64-elf-as
 LD	=x86_64-elf-ld
-LDFLAGS	=-m elf_i386
+LDFLAGS	=-m elf_i386 -static
 CC	=x86_64-elf-gcc -m32 -march=i386
-CFLAGS	=-Wall -O -fomit-frame-pointer -finline-functions -nostdinc -I../include
+CFLAGS	=-Wall -O -fomit-frame-pointer -finline-functions -nostdinc -fno-builtin -I../include
 CPP	=x86_64-elf-gcc -E -nostdinc -I../include
 DBGFLAGS=-g
 

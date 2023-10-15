@@ -179,7 +179,7 @@ void free_inode(struct m_inode * inode)
 	if (!inode)
 		return;
 	if (!inode->i_dev) {
-		_memset(inode, 0, sizeof(*inode));
+		memset(inode, 0, sizeof(*inode));
 		return;
 	}
 // 如果此i节点还有其他程序引用，则不释放，说明内核有问题，于是停机。如果文件链接数
@@ -207,7 +207,7 @@ void free_inode(struct m_inode * inode)
 	if (clear_bit(inode->i_num&8191, bh->b_data))
 		printk("free_inode: bit already cleared.\n\r");
 	bh->b_dirt = 1;
-	_memset(inode, 0, sizeof(*inode));
+	memset(inode, 0, sizeof(*inode));
 }
 
 /// 为设备dev建立一个新i节点。初始化并返回新i节点的指针。

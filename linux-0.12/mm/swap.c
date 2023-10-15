@@ -328,13 +328,13 @@ void init_swapping(void)
 // 符串，则说明不是一个有效的交换设备。于是显示信息，释放则申请的物理页面并退出函数。
 // 否则将特征字符串字节清零。宏read_swap_page(nr, buffer)定义在linux/mm.h文件中。
 	read_swap_page(0, swap_bitmap);
-	if (_strncmp("SWAP-SPACE", swap_bitmap, 10)) {
+	if (strncmp("SWAP-SPACE", swap_bitmap, 10)) {
 		printk("Unable to find swap-space signature\n\r");
 		free_page((long) swap_bitmap);
 		swap_bitmap = NULL;
 		return;
 	}
-	_memset(swap_bitmap+4086, 0, 10);
+	memset(swap_bitmap+4086, 0, 10);
 // 然后我们检查读入的交换位图，其中共有32768个比特位。若位图中的比特位为0，则表示设备
 // 上对应交换页面已使用（占用），若比特位为1，则表示对应交换页面可用（空闲）。因此对于
 // 设备上的交换分区，第一个页面（页面0）被用作交换管理，已占用（位为0）。而交换页面

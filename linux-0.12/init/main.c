@@ -267,7 +267,8 @@ void _main(void)         /* This really IS void, no error here. */
 // 格式，参见标准C语言书籍。该程序使用vsprintf()将格式化的字符串放入printbuf缓冲区，
 // 然后使用write()将缓冲区的内容输出到标准输出输出设备（stdout）上。vsprintf()函数的实现见
 // kernel/vsprintf.c。
-static int printf(const char *fmt, ...)
+/* static int printf(const char *fmt, ...) */
+int printf(const char *fmt, ...)
 {
         va_list args;
         int i;

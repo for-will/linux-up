@@ -38,7 +38,7 @@ extern char * strerror(int errno);
 // 参数：dest - 目的字符串指针，str - 源字符串指针。
 // 在嵌入汇编代码中，%0 - esi(src), %1 - edi(dest)。
 /* extern inline char * strcpy(char * dest, const char * src) */
-inline char * _strcpy(char * dest, const char * src)
+inline char * strcpy(char * dest, const char * src)
 {
 __asm__("cld\n"					// 清方向位。
  	"1:\tlodsb\n\t"				// 加载DS:[esi]处1字节->al，并更新esi。
@@ -54,7 +54,7 @@ return dest;		       // 返回目的字符串指针。
 // 参数：dest - 目的字符串指针，str- 源字符串指针，count - 拷贝字节数。
 // 在汇编代码中，%0 - esi(src)，%1 - edi(dest), %2 - ecx(count)。
 /* extern inline char * strncpy(char * dest, const char * src, int count) */
-inline char * _strncpy(char * dest, const char * src, int count)
+inline char * strncpy(char * dest, const char * src, int count)
 {
 __asm__("cld\n"					// 清方向位。
 	"1:\tdecl %2\n\t"			// 寄存器ecx--（count--）。
@@ -74,7 +74,7 @@ return dest;			   // 返回目的字符串指针。
 // 参数：dest - 目的字符串指针，src - 源字符串指针。
 // 在汇编代码中，%0 - esi(src), %1 - edi(dest), %2 -eax(0), %3 - ecx(-1)。
 /* extern inline char * strcat(char * dest, const char * src) */
-inline char * _strcat(char * dest, const char * src)
+inline char * strcat(char * dest, const char * src)
 {
 __asm__("cld\n\t"				// 清方向位。
 	"repne\n\t"				// 比较al与es:[edi]字节，并更新edi++，
@@ -92,7 +92,7 @@ return dest;					// 返回目的字符串指针。
 // 参数：dest - 目的字符串，src - 源字符串，count - 欲复制的字节数。
 // %0 - esi(src)，%1 - edi(dest)，%2 - eax(0)，%3 - ecx(-1)，%4 - (count)。
 /* extern inline char * strncat(char * dest, const char * src, int count)  */
-inline char * _strncat(char * dest, const char * src, int count)
+inline char * strncat(char * dest, const char * src, int count)
 {
 __asm__("cld\n\t"				// 清方向位。
 	"repne\n\t"				// 比较al与es:[edi]字节，edi++。
@@ -119,7 +119,7 @@ return dest;
 // 第90行字义了一个局部寄存器变量。该变量将被保存在eax寄存器中，以便更高效访问和操作。
 // 这种定义变量的方法主要用于内嵌汇编程序中。详细说明参见gcc手册“指定寄存器中的变量”。
 /* extern inline int strcmp(const char * cs, const char * ct) */
-inline int _strcmp(const char * cs, const char * ct)
+inline int strcmp(const char * cs, const char * ct)
 {
 register int __res __asm__("ax");		// __res是寄存器变量（eax）。
 __asm__("cld\n"					// 清方向位。
@@ -143,7 +143,7 @@ return __res;				// 返回比较结果。
 // %0 - eax（__res）返回值，%1 - edi（cs）串1指针，%2 - esi（ct）串2指针，%3 - ecx（count）。
 // 返回：如果串1 > 串2，则返回1；串1 = 串2，则返回0；串1 < 串2，则返回-1。
 /* extern inline int strncmp(const char * cs, const char * ct, int count) */
-inline int _strncmp(const char * cs, const char * ct, int count)
+inline int strncmp(const char * cs, const char * ct, int count)
 {
 register int __res __asm__("ax");		// __res是寄存器变量（eax）。
 __asm__("cld\n"					// 清方向位。
@@ -169,7 +169,7 @@ return __res;					// 返回比较结果。
 // %0 - eax(__res)，%1 - esi(字符串指针s)，%2 - eax（字符c）。
 // 返回：返回字符串第一次出现匹配字符的指针。若没有找到匹配的字符，则返回空指针。
 /* extern inline char * strchr(const char * s, char c) */
-inline char * _strchr(const char * s, char c)
+inline char * strchr(const char * s, char c)
 {
 register char * __res __asm__("ax");		// __res是寄存器变量（eax）。
 __asm__("cld\n\t"				// 清方向位。
@@ -190,7 +190,7 @@ return __res;		      			// 返回指针。
 // 参数：s - 字符串，c - 欲寻找的字符。
 // %0 - edx（__res），%1 - edx（0），%2 - esi（字符串指针s），%3 - eax（字符c）。
 // 返回：返回字符串最后一次出现匹配字符的指针。若没有找到匹配的字符，则返回空指针。
-inline char * _strrchr(const char * s, char c)
+inline char * strrchr(const char * s, char c)
 {
 register char * __res __asm__("dx");		// __res是寄存器变量（edx）。
 __asm__("cld\n\t"				// 清方向位。
@@ -211,7 +211,7 @@ return __res;			      		// 返回指针。
 // %0 - esi（__res），%1 - eax（0），%2 - ecx（-1），%3 - esi（串1指针cs），%4 - （串2指针ct）。
 // 返回字符串1中包含字符串2中任何字符的首个字符序列的长度值。
 /* extern inline int strspn(const char * cs, const char * ct) */
-inline int _strspn(const char * cs, const char * ct)
+inline int strspn(const char * cs, const char * ct)
 {
 register char * __res __asm__("si");		// __res是寄存器变量（esi）。
 __asm__("cld\n\t"				// 清方向位。
@@ -240,7 +240,7 @@ return __res-cs;				// 返回字符序列的长度值。
 // %0 - esi（__res），%1 - eax（0），%2 - ecx（-1），%3 - esi（串1指针cs），%4 - （串2指针ct）。
 // 返回字符串1中不包含字符串2中任何字符的首个字符序列的长度值。
 /* extern inline int strcspn(const char * cs, const char * ct) */
-inline int _strcspn(const char * cs, const char * ct)
+inline int strcspn(const char * cs, const char * ct)
 {
 register char * __res __asm__("si");		// __res是寄存器变量（esi）。
 __asm__("cld\n\t"				// 清方向位。
@@ -270,7 +270,7 @@ return __res-cs;				// 返回字符序列的长度值。
 // %4 - （串2指针ct）。
 // 返回字符串1中首个包含字符串2中字符的指针。
 /* extern inline char * strpbrk(const char * cs, const char * ct) */
-inline char * _strpbrk(const char * cs, const char * ct)
+inline char * strpbrk(const char * cs, const char * ct)
 {
 register char * __res __asm__("si");		// __res是寄存器变量（esi）。
 __asm__("cld\n\t"				// 清方向位。
@@ -303,7 +303,7 @@ return __res;					// 返回指针值。
 // %3 - esi（串1指针cs），%4 - （串2指针ct）。
 // 返回：返回字符串1中首个匹配字符串2的字符串指针。
 /* extern inline char * strstr(const char * cs, const char * ct) */
-inline char * _strstr(const char * cs, const char * ct)
+inline char * strstr(const char * cs, const char * ct)
 {
 register char * __res __asm__("ax");		// __res是寄存器变量（eax）。
 __asm__("cld\n\t"				// 清方向位。
@@ -336,7 +336,7 @@ return __res;					// 返回比较结果。
 // %0 - eax（__res），%1 - edi（字符串指针s），%2 - eax（0），%3 - ecx（0xffffffff）。
 // 返回：返回字符串的长度。
 /* extern inline int strlen(const char * s) */
-inline int _strlen(const char * s)
+inline int strlen(const char * s)
 {
 register int __res __asm__("cx");		// __res是寄存器变量（ecx）。
 __asm__("cld\n\t"				// 清方向位。
@@ -425,7 +425,7 @@ return __res;					// 返回指向新token的指针。
 // 参数：dest - 复制的目的地址，src - 复制的源地址，n - 复制字节数。
 // %0 - ecx（n），%1 - esi（src），%2 - edi（dest）。
 /* extern inline void * memcpy(void * dest, const void * src, int n) */
-inline void * _memcpy(void * dest, const void * src, int n)
+inline void * memcpy(void * dest, const void * src, int n)
 {
 __asm__("cld\n\t"				// 清方向位。
 	"rep\n\t"				// 重复执行复制ecx个字节，
@@ -441,7 +441,7 @@ return dest;					// 返回目的地址。
 // 否则：%0 - ecx（n），%1 - esi（src+n-1），%2 - edi（dest+n-1）。
 // 这样操作是为了防止在复制时错误地重叠覆盖。
 /* extern inline void * memmove(void * dest, const void * src, int n) */
-inline void * _memmove(void * dest, const void * src, int n)
+inline void * memmove(void * dest, const void * src, int n)
 {
 if (dest < src)					
 __asm__("cld\n\t"				// 清方向位。
@@ -463,7 +463,7 @@ return dest;
 // %0 - eax（__res）,%1 - eax（0），%2 - edi（内存块1），%3 - esi（内存块2），%4 - ecx（count）。
 // 返回：若块1>块2返回1；块1<块2，返回-1；块1==块2，则返回0。
 /* extern inline int memcmp(const void * cs, const void * ct, int count) */
-inline int _memcmp(const void * cs, const void * ct, int count)
+inline int memcmp(const void * cs, const void * ct, int count)
 {
 register int __res __asm__("ax");		// __res是寄存器变量。
 __asm__("cld\n\t"
@@ -484,7 +484,7 @@ return __res;					// 返回比较结果。
 // %0 - edi（__res）,%1 - eax（字符c），%2 - edi（内存块地址cs），%3 - ecx（字节数count）。
 // 返回第一个匹配字符的指针，如果没有找到，则返回NULL字符。
 /* extern inline void * memchr(const void * cs, char c, int count) */
-inline void * _memchr(const void * cs, char c, int count)
+inline void * memchr(const void * cs, char c, int count)
 {
 register void * __res __asm__("di");	// __res是寄存器变量。
 if (!count)				// 如果内存块长度==0，则返回NULL，没有找到。
@@ -504,7 +504,7 @@ return __res;				// 返回字符指针。
 // 用字符c填写s指向的内存区域，共填count字节。
 // %0 - eax（字符c），%1 - edi（内存地址），%2 - ecx（字节数count）。
 /* extern inline void * memset(void * s, char c, int count) */
-inline void * _memset(void * s, char c, int count)
+inline void * memset(void * s, char c, int count)
 {
 __asm__("cld\n\t"			// 清方向位。
 	"rep\n\t"			// 重复ecx指定的次数，执行

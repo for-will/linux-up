@@ -224,7 +224,7 @@ int vsprintf(char *buf, const char *fmt, va_list args)
 // 添加‘宽度值-字符串长度’个空格字符。
 			case 's':
 				s = va_arg(args, char *);
-				len = _strlen(s);
+				len = strlen(s);
 				if (precision < 0)
 					precision = len;
 				else if (len > precision)

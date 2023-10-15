@@ -423,11 +423,11 @@ restart_interp:
 // 和脚本文件名组合放入环境参数块中。首先复制脚本文件头1行字符‘#!’后面的字符串到buf
 // 中，其中含有脚本解释程序名（例如/bin/sh），也可能还包含解释程序的几个参数。然后对
 // buf中的内容进行处理。删除开始的空格、制表符。
-		_strncpy(buf, bh->b_data+2, 127);
+		strncpy(buf, bh->b_data+2, 127);
 		brelse(bh);			// 释放缓冲块并放回脚本文件i节点。
 		iput(inode);
 		buf[127] = '\0';
-		if ((cp = _strchr(buf, '\n'))) {
+		if ((cp = strchr(buf, '\n'))) {
 			*cp = '\0';		// 第1个换行符换成NULL并去掉空格制表符。
 			for (cp = buf; (*cp == ' ') || (*cp == '\t'); cp++) {};
 		}
