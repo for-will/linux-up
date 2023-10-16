@@ -5,9 +5,6 @@
  * 为什么不是一个.c文件？动动脑筋自己想想....
  */
 
-#include "a.out.h"
-#include "sys/types.h"
-#include "unistd.h"
 extern int sys_setup();				// 0 - 系统启动初始化设置函数。
 extern int sys_exit();				// 1 - 程序退出。
 extern int sys_fork();				// 2 - 创建进程。
