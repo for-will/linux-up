@@ -203,7 +203,6 @@ int copy_page_tables(unsigned long from, unsigned long to, long size)
 // 个数size后，下面开始对每个页目录项依次申请1页内存来保存对应的页表，并且开始
 // 页表项复制操作。如果目的目录项指定的页表已经存在（P=1），则出错死机。如果源目录
 // 项无效，即指定的页表不存在（P=0），则继续循环处理下一个页目录项。
-	//
 	for ( ; size-- >0; from_dir++, to_dir++) {
 		if (1 & *to_dir)
 			panic("copy_page_tables: already exist");
@@ -230,7 +229,6 @@ int copy_page_tables(unsigned long from, unsigned long to, long size)
 
 // 此时对于当前页表，开始循环复制指定的nr个内存页表项。先取出源页表项内容，如果
 // 当前源页面没有使用（项内容为0），则不用复制该表项，继续处理下一项。
-		//
 		for ( ; nr-- > 0; from_page_table++,to_page_table++) {
 			this_page = *from_page_table;
 			if (!this_page)
