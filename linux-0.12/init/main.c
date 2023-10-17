@@ -184,7 +184,7 @@ struct drive_info { char dummy[32]; } drive_info;       // 用于存放硬盘参
 // 英文注释含义是“这里确实是void，没错。在startup程序（head.s）中就是这样假设的”。参见
 // head.s程序第136行开始的几行代码。
 void _main(void)         /* This really IS void, no error here. */
-{                       /* The startup routine assumes (well, ...) this */
+{                        /* The startup routine assumes (well, ...) this */
 /*
  * Interrupts are still disabled. Do necessary setups, then
  * enbable them

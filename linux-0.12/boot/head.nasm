@@ -323,6 +323,7 @@ setup_paging:                                   ; 首先对5页内存（1页目�
         mov     eax, cr0
         or      eax, 0x80000000                 ; 添上PG标志
         mov     cr0, eax                        ; set paging (PG) bit
+	cld
         ret                                     ; this also flushes prefetch-queue
 
 ; 在改变分页处理标志后再使用转移指令刷新刷新预取指令队列。这里用的是返回指令ret。

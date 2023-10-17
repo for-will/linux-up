@@ -26,7 +26,8 @@
 // 参数：addr - 指定的内存地址。
 // %0 - （返回的字节_v）；%1 - （内存地址addr）。
 // 返回：返回内存fs:[addr]处的长字。
-/* extern */ inline unsigned long get_fs_long(const unsigned long * addr)
+/* extern */
+inline unsigned long get_fs_long(const unsigned long * addr)
 {
         unsigned long _v;
 

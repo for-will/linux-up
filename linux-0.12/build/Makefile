@@ -90,6 +90,39 @@ LIBOBJS = lib/_exit.o				\
 	lib/malloc.o				\
 	lib/string.o
 
+.PYONY: build
+
+build: bin/system
+	@ls -l bin/system	
+
+## run
+qemu: img/Image
+	qemu-system-i386 \
+	-boot order=a \
+	-drive file=img/Image,if=floppy,format=raw \
+	-k en-us 
+
+## debug
+gqemu: img/Image
+	qemu-system-i386 \
+	-boot order=a -drive file=img/Image,if=floppy,format=raw \
+	-s -S -k en-us
+
+## build
+img/Image: bin/bootsect.bin bin/setup.bin bin/kernel
+	dd if=bin/bootsect.bin of=img/Image bs=512 count=1 conv=notrunc
+	dd if=bin/setup.bin    of=img/Image bs=512 seek=1 conv=notrunc
+	dd if=bin/kernel       of=img/Image bs=512 seek=5 conv=notrunc
+
+bin/kernel: bin/system
+	x86_64-elf-objcopy -O binary -R .note -R .comment bin/system bin/kernel
+
+bin/bootsect.bin: ../boot/bootsect.nasm
+	nasm -o $@ $<
+
+bin/setup.bin: ../boot/setup.nasm
+	nasm -o $@ $<
+
 bin/system: boot/head.o init/main.o $(ARCHIVES) $(DRIVERS) $(MATH) $(LIBS)
 	$(LD) $(LDFLAGS) -Ttext 0 -e startup_32	\
 	boot/head.o init/main.o \
@@ -143,7 +176,8 @@ lib/lib.a: $(LIBOBJS)
 	$(AR) rcs $@ $^
 	sync
 
-## CLEAN
+
+## clean
 clean:
 	rm -f *.o *.a tmp_make
 	(for i in *.c;do rm -f `basename $$i .c`.s;done)

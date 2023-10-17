@@ -5,11 +5,11 @@
         "version": "0.2.0",
         "configurations": [
                 {
-                        "name": "GDB IN QEMU",
+                        "name": "QEMU Debug",
                         "type": "cppdbg",
                         "request": "launch",
                         "cwd": "${fileDirname}",
-                        "program": "${workspaceRoot}/linux-0.12/tools/system",
+                        "program": "${workspaceRoot}/linux-0.12/build/bin/system",
                         "MIMode": "gdb",
                         "miDebuggerPath": "/usr/local/bin/gdb",
                         "miDebuggerServerAddress": "localhost:1234"
