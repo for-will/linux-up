@@ -135,7 +135,8 @@ int sync_dev(int dev)
 
 /// 使指定设备在高速缓冲区中的数据无效。
 // 扫描高速缓冲区中所有缓冲块。对指定设备的缓冲块复位其有效（更新）标志和已修改标志。
-inline void invalidate_buffers(int dev)
+/* inline void invalidate_buffers(int dev) */
+static inline void invalidate_buffers(int dev)
 {
 	int i;
 	struct buffer_head * bh;
@@ -446,7 +447,8 @@ __asm__("cld\n\t" \
 	"rep\n\t" \
 	"movsl\n\t" \
 	::"c" (BLOCK_SIZE/4),"S" (from),"D" (to) \
-	:/* "cx","di","si" */)
+	:/* "cx","di","si" */); \
+__asm__("":::"ecx","edi","esi")
 
 /*
  * bread_page reads four buffers into memory at the desired address. It's

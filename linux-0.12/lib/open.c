@@ -23,7 +23,6 @@ int open(const char * filename, int flag, ...)
 // 文件打开操作。
 // %0 - eax（返回的描述符或出错码）；%1 - eax（系统蹼调用功能号__NR_open）；
 // %2 - ebx（文件名filename）；%3 - ecx（打开文件标志flag）；%4 - edx（后随参数文件属性mode）。
-	//
 	va_start(arg, flag);
 	__asm__("int $0x80"
 	 :"=a" (res)
@@ -31,7 +30,6 @@ int open(const char * filename, int flag, ...)
 	 "d" (va_arg(arg, int)));
 // 若系统中断调用返回值大于或等于0，表示是一个文件描述符，则直接返回之。
 // 否则说明返回值小于0，则代表一个出错码。设置该出错码并返回-1。
-	//
 	if (res >= 0)
 		return res;
 	errno = -res;

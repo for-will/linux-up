@@ -182,13 +182,13 @@ static void sysbeep(void);			// 系统蜂鸣函数。
 // VT100终端设备中的线条字符，即显示图表线条的字符集。
 static char * translations[] = {
 /* normal 7-bit ascii */
-	"!\"#$&'()*+.-./0123456789:;<=>?"
+	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~ ",
 /* vt100 graphics */
-	"!"" !\"#$%&'()*+,-./0123456789:;<=>?" 
+	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^ "
-	"\004\261\007\007\007\007\370\361\007\007\275\267\326\323\327\304" 
+	"\004\261\007\007\007\007\370\361\007\007\275\267\326\323\327\304"
 	"\304\304\304\304\307\266\320\322\272\363\362\343\\007\234\007 "
 };
 
@@ -280,7 +280,8 @@ static void scrup(int currcons)
 					 "c" ((video_num_lines-1)*video_num_columns>>1),
 					 "D" (video_mem_start),
 					 "S" (origin)
-					:/* "cx","di", "si" */);
+					:/* "cx","di","si" */);
+				__asm__("":::"ecx","edi","esi");
 				scr_end -= origin-video_mem_start;
 				pos -= origin-video_mem_start;
 				origin = video_mem_start;
@@ -295,6 +296,7 @@ static void scrup(int currcons)
 					 "c" (video_num_columns),
 					 "D" (scr_end-video_size_row)
 					:/* "cx", "di" */);
+				__asm__("":::"ecx","edi");
 			}
 // 然后把新屏幕滚动窗口内存起始位置值origin写入显示控制器中。
 			set_origin(currcons);
@@ -315,6 +317,7 @@ static void scrup(int currcons)
 				 "D" (origin+video_size_row*top),
 				 "S" (origin+video_size_row*(top+1))
 				:/* "cx","di","si" */);
+			__asm__("":::"ecx","edi","esi");
 		}
 	}
 // 如果显示类型不是EGA（而是MDA），则执行下面移动操作。因为MDA显示控制卡只能整屏滚动，
@@ -332,6 +335,7 @@ static void scrup(int currcons)
 			 "D" (origin+video_size_row*top),
 			 "S" (origin+video_size_row*(top+1))
 			:/* "cx","di","si" */);	
+		__asm__("":::"ecx","edi","esi");
 	}
 }
 
@@ -361,12 +365,14 @@ static void scrdown(int currcons)
 			"addl $2,%%edi\n\t"	/* %edi has been decremented by 4 */
 			"movl video_num_columns,%%ecx\n\t"
 			"rep\n\t"
-			"stosw"
+			"stosw\n\t"
+			"cld"
 			::"a" (video_erase_char),
 			 "c" ((bottom-top-1)*video_num_columns>>1),
 			 "D" (origin+video_size_row*bottom-4),
 			 "S" (origin+video_size_row*(bottom-1)-4)
 			:/* "ax","cx","di","si" */);
+		__asm__("":::"eax","ecx","edi","esi");
 	}
 // 如果不是EGA显示类型，则执行以下操作（与上面完全一样）。
 	else {					/* Not EGA/VGA */
@@ -376,12 +382,14 @@ static void scrdown(int currcons)
 			"addl $2,%%edi\n\t"	/* %edi has been decremented by 4 */
 			"movl video_num_columns,%%ecx\n\t"
 			"rep\n\t"
-			"stosw"
+			"stosw\n\t"
+			"cld"
 			::"a" (video_erase_char),
 			 "c" ((bottom-top-1)*video_num_columns>>1),
 			 "D" (origin+video_size_row*bottom-4),
 			 "S" (origin+video_size_row*(bottom-1)-4)
 			:/* "ax","cx","di","si" */);
+		__asm__("":::"eax","ecx","edi","esi");
 	}
 }
 
@@ -474,6 +482,7 @@ static void csi_J(int currcons, int vpar)
 		::"c" (count),
 		 "D" (start), "a" (video_erase_char)
 		:/* "cx", "di" */);
+	__asm__("":::"ecx","edi");
 }
 
 //// 删除一行上与光标位置相关的部分。
@@ -512,6 +521,7 @@ static void csi_K(int currcons, int vpar)
 		::"c" (count),
 		 "D" (start), "a" (video_erase_char)
 		:/* "cx","di" */);
+	__asm__("":::"ecx","edi");
 }
 
 //// 设置显示字符属性。
@@ -869,6 +879,7 @@ void con_write(struct tty_struct * tty)
 					 "m" (*(short *)pos),
 					 "m" (attr)
 					:/* "ax" */);
+				__asm__("":::"eax");
 				pos += 2;
 				x++;
 // 如果字符c是转义字符ESC，则转换状态state到ESesc（637行）。
@@ -1397,6 +1408,7 @@ void console_print(const char * b)
 	        if (c == 10) {
 		        cr(currcons);
 			lf(currcons);
+			continue;
 		}
 		if (c == 13) {
 			cr(currcons);
@@ -1418,6 +1430,7 @@ void console_print(const char * b)
 			 "m" (*(short *)pos),
 			 "m" (attr)
 			:/* "ax" */);
+		__asm__("":::"eax");
 		pos += 2;
 		x++;
 	}

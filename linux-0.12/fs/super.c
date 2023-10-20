@@ -246,7 +246,7 @@ static struct super_block * read_super(int dev)
 // 最低位置为1。最后函数解锁该超级块，并返回超级块指针。
 	s->s_imap[0]->b_data[0] |= 1;
 	s->s_zmap[0]->b_data[0] |= 1;
-	free_super(s);
+	free_super(s);		// unlock super block
 	return s;
 }
 

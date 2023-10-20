@@ -160,3 +160,35 @@ i_count是inode运行时的引用计数,其值等于0时，表示这个m_inode�
 暂的办法是在，在head.s的`setup_paging`函数的的`ret`命令前面添加一条`cld`命令。console中的问题暂解决了，但是内核中还有一些地方使用了`std`指令，不知道这会不会有问题，还需要进进一步测试。
 
 
+### 嵌入汇编的寄存器被编译器使用
+下面段代码珍edx作为输出寄存器，但gcc非常大胆，它把edx作为一个基地址表示current，简直是灭顶之灾。
+```cpp
+#define _get_base(addr) ({ 	\
+unsigned long __base; 		\
+__asm__("movb %3,%%dh\n\t" 	/* 取[addr+7]处基址高16位的高8位（位31-24）-> DH */\
+	"movb %2,%%dl\n\t"	/* 取[addr+4]处基址高16位的低8位（位23-16）-> DL */\
+	"shll $16,%%edx\n\t"	/* 基地址高16位到EDX中高16位处 		        */\
+	"movw %1,%%dx"		/* 取[addr+2]处基址低16位（位15-0）-> DX 	*/\
+	:"=d" (__base)		/* 从而EDX中含有32位的段基地址 		        */\
+	:"m" (*((addr)+2)), 	\
+	 "m" (*((addr)+4)), 	\
+	 "m" (*((addr)+7))); 	\
+__base;})
+
+// 取局部描述符表中ldt所指段描述符中的基地址。
+#define get_base(ldt) _get_base(((char *) &(ldt)))
+
+// do_execve()中使用这个宏
+free_page_tables(get_base(current->ldt[2]), get_limit(0x17));
+```
+编译之后get_base对应的汇编如下
+```c++
+// c336:   8b 15 20 a2 01 00       mov    0x1a220,%edx
+// c33c:   8a b2 af 03 00 00       mov    0x3af(%edx),%dh
+// c342:   8a 92 ac 03 00 00       mov    0x3ac(%edx),%dl
+// c348:   c1 e2 10                shl    $0x10,%edx
+// c34b:   66 8b 92 aa 03 00 00    mov    0x3aa(%edx),%dx
+```
+两个解决办法:
+* 一个是添加将"=d"改成"=&d","&"指明别的参数不要使用这个寄存器。
+* 另一个方法是在输入列表中为edx赋一个初始值0，表明edx在输入中也被使用了，gcc在其他地方就不要使用,但这会增加一条无用的赋值语句。

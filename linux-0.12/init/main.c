@@ -45,7 +45,7 @@ inline _syscall0(int,fork)
 /* static */
 inline _syscall0(int,pause)
 /* static */
-inline _syscall1(int,setup,void *,BIOS)
+static inline _syscall1(int,setup,void *,BIOS)
 /* static */
 inline _syscall0(int,sync)
 
@@ -75,6 +75,7 @@ static char printbuf[1024];             // 表态字符串数组，用作内核�
 extern char *strcpy();                  // 外部函数或变量，定义在别处。
 /* extern int vsprintf();                  // 送格式化输出到字符串中（vsprintf.c,92行）。 */
 extern int vsprintf(char * buf, const char * fmt, va_list args);
+extern int sprintf(char * str, const char *fmt, ...);
 extern void init(void);                 // 函数原形，初始化（本程序168行）。
 extern void blk_dev_init(void);         // 块设备初始化程序（blk_drv/ll_rw_blk.c,210行）
 extern void chr_dev_init();             // 字符设备初始化（chr_drv/tty_io.c,402行）
@@ -87,16 +88,16 @@ extern long kernel_mktime(struct tm * tm);      // 计算开机时间（kernel/m
 // 内核专用sprintf()函数。该函数用于产生格式化信息并输出到指定缓冲区str中。参数‘*fmt’
 // 指定输出将采用的格式，参见标准C语言书籍。该子程序正好是vsprintf如何使用的一个简单
 // 例子。函数使用vsprintf()将格式化字符串放入str缓冲区，参见第179行上的printf()函数。
-static int sprintf(char * str, const char *fmt, ...)
-{
-        va_list args;
-        int i;
+// int sprintf(char * str, const char *fmt, ...)
+// {
+//         va_list args;
+//         int i;
 
-        va_start(args, fmt);
-        i = vsprintf(str, fmt, args);
-        va_end(args);
-        return i;
-}
+//         va_start(args, fmt);
+//         i = vsprintf(str, fmt, args);
+//         va_end(args);
+//         return i;
+// }
 
 /*
  * This is set up by the setup-routine at boot-time
@@ -105,12 +106,12 @@ static int sprintf(char * str, const char *fmt, ...)
 // 内核代码段被映射到从物理地址零开始的地方，因此这些线性地址正好也是对应的物理地址。
 // 这些指定地址处内存值的含义请参见第6章的表6-3（setup程序读取并保存的参数）。
 // drive_info结构请参见下面第125行。
-#define EXT_MEM_K (*(unsigned short *)0x90002)          // 1MB以后的扩展内存大小（KB）。
-#define CON_ROWS ((*(unsigned short *)0x9000e) & 0xff)  // 选定的控制台屏幕行、列数。
+#define EXT_MEM_K (*(unsigned short *)0x90002)	       	/* 1MB以后的扩展内存大小（KB） */
+#define CON_ROWS ((*(unsigned short *)0x9000e) & 0xff)	/* 选定的控制台屏幕行、列数 */ 
 #define CON_COLS (((*(unsigned short *)0x9000e) &0xff00) >> 8)
-#define DRIVE_INFO (*(struct drive_info *)0x90080)      // 硬盘参数表32字节内容
-#define ORIG_ROOT_DEV (*(unsigned short *)0x901FC)      // 根文件系统所在设备号。
-#define ORIG_SWAP_DEV (*(unsigned short *)0x901FA)      // 交换文件所在设备号。
+#define DRIVE_INFO (*(struct drive_info *)0x90080) 	/* 硬盘参数表32字节内容 */ 
+#define ORIG_ROOT_DEV (*(unsigned short *)0x901FC)      /* 根文件系统所在设备号 */
+#define ORIG_SWAP_DEV (*(unsigned short *)0x901FA)      /* 交换文件所在设备号 */
 
 /*
  * Yeah, yeah, it's ugly, but I cannot find how to do this correctly
@@ -198,6 +199,7 @@ void _main(void)         /* This really IS void, no error here. */
         ROOT_DEV = ORIG_ROOT_DEV;               // ROOT_DEV定义在fs/super.c,29行。
         SWAP_DEV = ORIG_SWAP_DEV;               // SWAP_DEV定义在mm/swap.c,36行。
         sprintf(term, "TERM=con%dx%d", CON_COLS, CON_ROWS);
+        // ksprintf(term, "TERM=con%dx%d", CON_COLS, CON_ROWS);
         envp[1] = term;
         envp_rc[1] = term;
         drive_info = DRIVE_INFO;                // 复制内存 0x90080处的硬盘参数表。
@@ -259,8 +261,10 @@ void _main(void)         /* This really IS void, no error here. */
  */
 // pause()系统调用会把任务0转换成可中断等待状态，再执行高度函数。但是调度函数只要发现系统
 // 中没有其他任务可运行时就会切换回任务0，而不依赖于任务0的状态。参见（kernel/sched.c:144）
-        for(;;)
+        for(;;){
+                // printk("pause\n\r");
                 __asm__("int $0x80"::"a" (__NR_pause));    // 即执行系统调用pause()。
+        }
 }
 
 // 下面函数产生格式化信息并输出到标准输出设备stdout(1)上显示。参数‘*fmt’指定输出采用的

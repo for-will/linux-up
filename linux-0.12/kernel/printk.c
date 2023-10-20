@@ -36,3 +36,14 @@ int printk(const char *fmt, ...)
 	console_print(buf);		// chr_drv/console.c，第995行开始。
 	return i;
 }
+
+int ksprintf(char * str, const char *fmt, ...)
+{
+        va_list args;
+        int i;
+
+        va_start(args, fmt);
+        i = vsprintf(str, fmt, args);
+        va_end(args);
+        return i;
+}

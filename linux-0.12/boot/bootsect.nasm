@@ -36,8 +36,9 @@ SYSSEG          equ DEF_SYSSEG          ; system loaded at 0x10000 (65536).
 ENDSEG          equ SYSSEG + SYSSIZE    ; where to stop loading
 
 ; ROOT_DEV & SWAP_DEV are now written by "build".
-ROOT_DEV    equ 0                   ; 根文件系统设备使用与系统引导时同样的设备；
-SWAP_DEV    equ 0                   ; 交换设备使用与系统引导时同样的设备；
+; 
+ROOT_DEV    equ 0x0301                  ; 根文件系统设备使用与系统引导时同样的设备；
+SWAP_DEV    equ 0                       ; 交换设备使用与系统引导时同样的设备；
 
 start:
         mov ax, BOOTSEG                 ; 将ds段寄存器置为0x7c0
@@ -188,7 +189,7 @@ ok_load_setup:
 ; on the number of sectors that the BIOS reports currently.
 ; 上面一行中两个设备文件的含义说明如下：
 ; 在Linux中软驱的主设备号是2，次设备号 = type*4 + nr，其中
-; nr 为0-3分别对应软驱A、B、C或D；type是软驱的类型（2->12MB或7->1.44MB等）。
+; nr 为0-3分别对应软驱A、B、C或D；type是软驱的类型（2->1.2MB或7->1.44MB等）。
 ; 因为 7*4 + 0 = 28，所以/dev/PS0(2,28)指的是1.44MB A驱动器，其设备号是0x021c
 ; 同理 /dev/at0(2,8)指的是1.2MB A驱动器，其设备号是 0x0208。
         mov ax, [cs:root_dev]

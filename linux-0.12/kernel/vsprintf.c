@@ -298,3 +298,17 @@ int vsprintf(char *buf, const char *fmt, va_list args)
 	*str = '\0';		// 最后在转换好的字符串结尾处添上null。
 	return str-buf;		// 返回转换好的字符串长度值。
 }
+
+// 如果这个函数在调用它的文件中定义，"智能"的gcc会把把这个函数内联，
+// 同时认为省略号表示的变长参数部分在函数中没有使用，所以就给优化掉，不予传入...
+// 所以把这个函数放在不同的文件中进行定义，以免被内联“优化”。
+int sprintf(char * str, const char *fmt, ...)
+{
+        va_list args;
+        int i;
+
+        va_start(args, fmt);
+        i = vsprintf(str, fmt, args);
+        va_end(args);
+        return i;
+}

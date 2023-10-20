@@ -46,8 +46,11 @@
 
 unsigned long HIGH_MEMORY = 0;	// 全局变量，存放实际物理内存最高端地址。
 // 从from处复制1页内存到to处（4K字节）。
-#define copy_page(from, to) \
-__asm__("cld ; rep ; movsl"::"S" (from), "D" (to), "c" (1024):/* "cx","di","si" */)
+#define copy_page(from, to) 			\
+__asm__("cld \t\n rep  movsl" 			\
+	::"S" (from), "D" (to), "c" (1024) 	\
+	:/* "cx","di","si" */); 		\
+__asm__("":::"ecx","edi","esi")
 
 // 物理内存映射字节图（1字节代表1页内存）。每个页面对应的字节用于标志页面当前被引用
 // （占用）次数。对于含有16MB物理内存的机器，它最大可以映射15MB的内存空间。在初始化
@@ -126,7 +129,7 @@ int free_page_tables(unsigned long from, unsigned long size)
 		pg_table = (unsigned long *) (0xfffff000 & *dir); // 取页表地址。
 		for (nr = 0; nr < 1024; nr++) {
 			if (*pg_table) { 		// 若所指页表项内容不为0，则
-				if (! & *pg_table)	// 若该项有效，则释放对应页。
+				if (1 & *pg_table)	// 若该项有效，则释放对应页。
 					free_page(0xfffff000 & *pg_table);
 				else
 					swap_free(*pg_table >> 1);
@@ -389,7 +392,6 @@ void un_wp_page(unsigned long * table_entry)
 // 如果原页面大于内存低端（则意味着mem_map[] > 1，页面是共享的），则交原页面的页
 // 面映射字节数组值递减1。然后将指定页表项内容更新为新页面地址，并置可读写等标志
 // （U/S、R/W、P）。在刷新页变换调整缓冲之后，最后将原页面内容复制到新页面。
-	//
 	if (!(new_page = get_free_page()))
 		oom();			// Out of Memory。内存不够处理。
 	if (old_page >= LOW_MEM)

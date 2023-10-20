@@ -22,7 +22,7 @@
   *    10(%esp) - original %eax         (-1 if system call)
   *    14(%esp) - %fs
   *    18(%esp) - %es
-  *    18(%esp) - %ds
+  *    1C(%esp) - %ds
   *    20(%esp) - %eip
   *    24(%esp) - %cs
   *    28(%esp) - %eflags
@@ -154,7 +154,7 @@ ret_from_sys_call:
 // 不是用户任务，则也退出。
         cmpw    $0x0f, CS(%esp)         // was old code segment supervisor ?
         jne     3f
-        cmpw    $0x1f, OLDSS(%esp)      // was stack segment = 0x17 ?
+        cmpw    $0x17, OLDSS(%esp)      // was stack segment = 0x17 ?
         jne     3f
 
 // 下面这段代码（行115-128）用于处理当前任务的信号。首先取当前任务结构中的信号位图（32位，

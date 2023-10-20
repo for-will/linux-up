@@ -337,6 +337,15 @@ int do_execve(unsigned long * eip, long tmp, char * filename,
 	int sh_bang = 0;			// 控制是否需要执行脚本程序。
 	unsigned long p = PAGE_SIZE * MAX_ARG_PAGES - 4; // p指向参数和环境空间的最后部。
 
+	// char _tmp[100];
+	// char * _p = filename, _c;
+	// int _len = 0;
+	// while ((_c = get_fs_byte(_p++))){
+	// 	_tmp[_len++] = _c;
+	// }
+	// _tmp[_len] = '\0';
+	// printk("=====> do_execve: %s\n", _tmp);
+
 // 在正式设置执行文件的运行环境之前，让我们先做些准备工作。内核准备了128KB（32个页面）
 // 空间来存放化执行文件的命令行参数和环境字符串。上行把p初始设置成位于128KB空间的最后
 // 1个长字处。在初始参数和环境空间的操作过程中，p将用来指明在128KB空间中的当前位置。

@@ -127,13 +127,13 @@ static int match(int len, const char * name, struct dir_entry * de)
 // 然后使用嵌入汇编语句进行快速比较操作。它会在用户数据空间（fs段）执行字符串的比较
 // 操作。%0 - eax（比较结果same）；%1 - eax（eax初值0）；%2 - esi（名字指针）；
 // %3 - edi（目录项名指针）；%4 - ecx（比较的字节长度值len）。
-	//
 	__asm__("cld\n\t"			// 清方向标志位。
 		"fs ; repe ; cmpsb\n\t"		// 用户空间执行循环比较[esi++]和[edi++]操作，
 		"setz %%al"			// 若比较结果一样（zf=0）则置al=1（same=eax）。
 		:"=a" (same)
 		:"0" (0),"S" ((long) name),"D" ((long) de->name),"c" (len)
 		:/* "cx","di","si" */);
+	__asm__("":::"ecx","edi","esi");
 	return same;				// 返回比较结果。
 }
 

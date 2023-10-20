@@ -250,9 +250,12 @@ int floppy_change(unsigned int nr)
 //// 复制内存缓冲块，共1024字节。
 // 从内存地址from处复制1024字节数据到地址toth。
 #define copy_buffer(from, to)			\
-	__asm__("cld ; rep ; movsl"		\
-		::"c" (BLOCK_SIZE/4), "S" ((long)(from)), "D" ((long)(to)) \
-		:/* "cx", "di", "si" */)
+__asm__("cld ; rep ; movsl"			\
+	::"c" (BLOCK_SIZE/4), "S" ((long)(from)), "D" ((long)(to)) \
+	:/* "cx", "di", "si" */); 		\
+__asm__("":::"ecx","edi","esi")
+
+	
 	
 //// 设置（初始化）软盘DMA通道。
 // 软盘中数据读写操作是使用DMA进行的。因此在每次进行数据传输之前需要设置DMA芯片
@@ -433,7 +436,8 @@ static void rw_interrupt(void)
 //// 设置DMA通道2并向软盘控制器输出命令和参数（输出1字节命令 + 0~7字节参数）。
 // 若reset标志没有置位，那么在该函数退出并且软盘控制器执行完相应读写操作后就会产生一
 // 个软盘中断请求，并开始执行软盘中断处理程序。
-inline void setup_rw_floppy(void)
+/* inline void setup_rw_floppy(void) */
+static inline void setup_rw_floppy(void)
 {
 	setup_DMA();			// 初始化软盘DMA通道。
 	do_floppy = rw_interrupt;	// 置软盘中断调用函数指针。

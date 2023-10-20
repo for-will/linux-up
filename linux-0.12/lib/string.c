@@ -8,6 +8,7 @@
 #error I want gcc!
 #endif
 
+#define static
 #define extern
 #define inline
 #define __LIBRARY__

@@ -149,8 +149,7 @@ void math_state_restore()
 	}else {
 		__asm__("fninit"::);		// 向协处理器发初始化命令。
 		current->used_math = 1;		// 设置使用协处理器标志。
-	}
-	
+	}	
 }
 
 /**
@@ -539,7 +538,7 @@ void do_timer(long cpl)
 // 执行任务切换操作。
 	if ((--current->counter)>0) return;
 	current->counter = 0;
-	if (!cpl) return;			// 对于内核态程序，不依赖counter值进行高度。
+	if (!cpl) return;			// 对于内核态程序，不依赖counter值进行调度。
 	schedule();
 }
 
@@ -634,7 +633,7 @@ void sched_init(void)
 		p++;
 	}
 /* Clear NT, so that we won't have troubles with that later on */
-// EFLAGS中的NT标志位用于控制任务的嵌套调用。当NT位置位时，姥当中断任务执行
+// EFLAGS中的NT标志位用于控制任务的嵌套调用。当NT位置位时，那么当前中断任务执行
 // IRET指令时就会引起任务切换。NT指出TSS中的back_link字段是否有效。NT=0时无效。
 	__asm__("pushfl ; andl $0xffffbfff,(%esp) ; popfl"); 	// 复位NT标志
 

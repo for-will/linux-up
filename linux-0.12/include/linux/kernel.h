@@ -17,9 +17,7 @@ void panic(const char * str) __attribute__((noreturn));
 void do_exit(long error_code) __attribute__((noreturn));
 
 // 标准打印（显示）函数。（init/main.c，179）。
-// printf是内置函数，我将其改名为kprintf。
 int printf(const char * fmt, ...);
-// int kprintf(const char * fmt, ...);
 
 // 内核专用的打印信息函数，功能与printf()相同。（kernel/printk.c，21）。
 /* int printf(const char * fmt, ...); */

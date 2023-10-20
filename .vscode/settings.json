@@ -19,6 +19,8 @@
                 "stdarg.h": "c",
                 "string.h": "c",
                 "stddef.h": "c",
-                "hdreg.h": "c"
+                "hdreg.h": "c",
+                "system.h": "c",
+                "tty.h": "c"
         }
 }

@@ -262,7 +262,7 @@ unsigned long get_free_page(void)
 // 的页面地址大于实际物理内存容量则重新寻找。如果没有找到空闲页面则去调用执行交换处
 // 理，并热更新查找。最后返回空闲物理页面地址。
 repeat:
-	__asm__("std ; repne ; scasb\n\t"	// 设置方向位；al(0)与对应每个页面的（di）内容比较，
+	__asm__("std \n\t repne scasb\n\t"	// 设置方向位；al(0)与对应每个页面的（di）内容比较，
 		"jne 1f\n\t"			// 如果没有等于0的字节，则跳转结束（返回0）。
 		"movb $1,1(%%edi)\n\t"		// 1 => [1+edi]，将对应页面内存映像比特位置1。
 		"sall $12,%%ecx\n\t"		// 页面数*4K = 相对页面起始地址。
@@ -270,13 +270,14 @@ repeat:
 		"movl %%ecx,%%edx\n\t"		// 将页面实际起始地址->edx寄存器。
 		"movl $1024,%%ecx\n\t"		// 寄存器ecx置计数值1024。
 		"leal 4092(%%edx),%%edi\n\t"	// 将4092+edx的位置->edi（该页面的末端）。
-		"rep ; stosl\n\t"		// 将edi所指内存清零（反方向，即将该页面清零）。
+		"rep stosl\n\t"		// 将edi所指内存清零（反方向，即将该页面清零）。
 		"movl %%edx,%%eax\n"		// 将页面起始地址->eax(返回值)。
-		"1:"
+		"1:\tcld"			// 恢复Direction标志
 		:"=a" (__res)
 		:"0" (0), "i" (LOW_MEM), "c" (PAGING_PAGES),
 		"D" (mem_map+PAGING_PAGES-1)
-		: /* "di","cx","dx" */);
+		:/* "di","cx","dx" */);
+	__asm__("":::"edi","ecx","edx");
 	if (__res >= HIGH_MEMORY)		// 页面地址大于实际内存容量则重新寻找。
 		goto repeat;
 	if (!__res && swap_out())		// 若没得到空闲页面则执行交换处理，并重新查找。

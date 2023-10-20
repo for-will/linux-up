@@ -97,11 +97,13 @@ static int hd_sizes[5*MAX_HD] = {0, };
 
 // 读端口嵌入汇编宏。读端口port，共nr字，保存在buf中。
 #define port_read(port, buf, nr) \
-__asm__("cld\n\trep\n\tinsw"::"d" (port), "D" (buf), "c" (nr): /* "cx", "di" */)
+__asm__("cld\n\trep\n\tinsw"::"d" (port), "D" (buf), "c" (nr): /* "cx", "di" */); \
+__asm__("":::"ecx","edi")
 
 // 写端口嵌入汇编宏。写端口port，共写nr字，从buf中取数据。
 #define port_write(port, buf, nr) \
-__asm__("cld\n\trep\n\toutsw"::"d" (port), "S" (buf), "c" (nr):/*  "cx", "si" */)
+__asm__("cld\n\trep\n\toutsw"::"d" (port), "S" (buf), "c" (nr):/*  "cx", "si" */); \
+__asm__("":::"ecx","esi")
 
 extern void hd_interrupt(void);		// 硬盘中断过程（sys_call.s，235行）。
 extern void rd_load(void);		// 虚拟盘创建加载函数（ramdisk.c，71行）。
@@ -269,7 +271,11 @@ static int controller_ready(void)
 {
 	int retries = 1000000;	// ❓原始 int retries = 100000;
 
-	while (--retries && (inb_p(HD_STATUS)&0xc0)!=0x40);
+	// while (--retries && (inb_p(HD_STATUS)&0xc0)!=0x40);
+	while (--retries && (inb_p(HD_STATUS)&BUSY_STAT)){
+		// do nothing
+	}
+
 	return (retries);	// 返回等待循环次数。
 }
 
@@ -307,7 +313,7 @@ static void hd_out(unsigned int drive, unsigned int nsect, unsigned int sect,
 	if (drive > 1 || head > 15)
 		panic("Trying to write bad sector");
 	if (!controller_ready())
-		panic("HD controller not ready");
+		printk("HD controller not ready");
 // 接着我们设置硬盘中断发生时将调用的C函数指针do_hd（该函数指针定义在blk.h文件的
 // 第46--109行之间，请特别留意其中的第83行和100行）。然后向硬盘控制器命令端口
 // （0x3f6）发送一控制字节，以建立指定硬盘的控制方式。该控制字节即是硬盘信息结构数组

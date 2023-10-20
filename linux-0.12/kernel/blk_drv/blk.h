@@ -169,7 +169,8 @@ static void (DEVICE_REQUEST)(void);
 // 解锁指定的缓冲块。
 // 如果指定缓冲块bh并没有被上锁，则显示警告信息。否则将该缓冲块解锁，并唤醒等待
 // 该缓冲块的进程。此为内嵌函数，但用做“宏”。参数是缓冲块头指针。
-/* extern */ inline void unlock_buffer(struct buffer_head * bh)
+/* extern inline void unlock_buffer(struct buffer_head * bh) */
+static inline void unlock_buffer(struct buffer_head * bh)
 {
         if (!bh->b_lock)
                 printk(DEVICE_NAME ":free buffer being unlocked\n");
@@ -183,7 +184,8 @@ static void (DEVICE_REQUEST)(void);
 // 区数据更新标志，并解锁该缓冲区。如果更新标志参数值是0，表示此次请求项的操作已失
 // 败，因此显示相关块设备IO错误信息。最后，唤醒等待该请求项的进程以及等待空闲请求
 // 项出现的进程，释放并从请求链表中删除本请求项，并把当前请求项指针指向下一请求项。
-/* extern */ inline void end_request(int uptodate)
+/* extern inline void end_request(int uptodate) */
+static inline void end_request(int uptodate)
 {
         DEVICE_OFF(CURRENT->dev);                       // 关闭设备。
         if (CURRENT->bh) {                              // CURRENT为当前请求结构项指针。

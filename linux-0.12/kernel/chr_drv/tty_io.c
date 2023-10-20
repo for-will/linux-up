@@ -539,7 +539,6 @@ int tty_write(unsigned channel, char * buf, int nr)
 
 // 首先判断参数有效性并取终端的tty结构指针。如果tty终端的三个缓冲队列指针都是NULL，
 // 则返回EIO出错信息。
-	//
 	if (channel > 255)
 		return -EIO;
 	tty = TTY_TABLE(channel);
@@ -571,12 +570,11 @@ int tty_write(unsigned channel, char * buf, int nr)
 // ONLRET置位的话，则将该字符换成回车符‘\r’（CR，13）。
 				if (c == '\r' && O_CRNL(tty))
 					c = '\n';
-				else if (c == '\n' && O_NLCR(tty))
+				else if (c == '\n' && O_NLRET(tty))
 					c = '\r';
 // 如果该字符是换行符‘\n’并且回车标志cr_flag没有置位，但换行转回车-换行标志ONLCR
 // 置位的话，则将cr_flag标志置位，并将一回车符放入写队列中。然后继续处理下一个字符。
 // 如果小写转大写标志OLCUC置位的话，就将该字符转成大写字符。
-				//
 				if (c == '\n' && !cr_flag && O_NLCR(tty)) {
 					cr_flag = 1;
 					PUTCH(13, tty->write_q);

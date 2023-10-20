@@ -87,6 +87,10 @@ int copy_mem(int nr, struct task_struct * p)
         p->start_code = new_code_base;
         set_base(p->ldt[1], new_code_base);
         set_base(p->ldt[2], new_data_base);
+        // fix_set_base(&p->ldt[1], new_code_base);
+        // fix_set_base(&p->ldt[2], new_data_base);
+        // printk("new_code_base = %x\n\r", get_base(p->ldt[1]));
+        // printk("new_data_base = %x\n\r", get_base(p->ldt[2]));
         if (copy_page_tables(old_data_base, new_data_base, data_limit)) {
                 free_page_tables(new_data_base, data_limit);
                 return -ENOMEM;

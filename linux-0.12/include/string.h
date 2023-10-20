@@ -38,14 +38,15 @@ extern char * strerror(int errno);
 // 参数：dest - 目的字符串指针，str - 源字符串指针。
 // 在嵌入汇编代码中，%0 - esi(src), %1 - edi(dest)。
 /* extern inline char * strcpy(char * dest, const char * src) */
-inline char * strcpy(char * dest, const char * src)
+static inline char * strcpy(char * dest, const char * src)
 {
 __asm__("cld\n"					// 清方向位。
  	"1:\tlodsb\n\t"				// 加载DS:[esi]处1字节->al，并更新esi。
 	"stosb\n\t"				// 存储字节al->ES:[edi]，并更新edi。
 	"testb %%al,%%al\n\t"			// 刚存储的字节是0？
 	"jne 1b"				// 不是刚向后跳转到标号1处，否则结束。
-	::"S" (src),"D" (dest):/* "si","di","ax" */);	
+	::"S" (src),"D" (dest):/* "si","di","ax" */);
+__asm__("":::"esi","edi","eax");
 return dest;		       // 返回目的字符串指针。
 }
 
@@ -66,7 +67,8 @@ __asm__("cld\n"					// 清方向位。
 	"rep\n\t"				// 否则，在目的串中存放剩余个数的空字符。
 	"stosb\n"
 	"2:"
-::"S" (src),"D" (dest),"c" (count):/* "si","di","ax","cx" */);	
+::"S" (src),"D" (dest),"c" (count):/* "si","di","ax","cx" */);
+__asm__("":::"esi","edi","eax","ecx");
 return dest;			   // 返回目的字符串指针。
 }
 
@@ -85,6 +87,7 @@ __asm__("cld\n\t"				// 清方向位。
 	"testb %%al,%%al\n\t"			// 该字节是0？
 	"jne 1b"				// 不是，则身后跳转到标号1处继续拷贝，否则结束。
 ::"S" (src),"D" (dest),"a" (0),"c" (0xffffffff):/* "si","di","ax","cx" */);
+__asm__("":::"esi","edi","eax","ecx");
 return dest;					// 返回目的字符串指针。
 }
 
@@ -108,7 +111,8 @@ __asm__("cld\n\t"				// 清方向位。
 	"2:\txorl %2,%2\n\t"		// 将al清零。
 	"stosb"					// 存到es:[edi]处。
 ::"S" (src),"D" (dest),"a" (0), "c" (0xffffffff),"g" (count)
-:/* "si","di","ax","cx" */);	
+:/* "si","di","ax","cx" */);
+__asm__("":::"esi","edi","eax","ecx");
 return dest;
 }
 
@@ -135,6 +139,7 @@ __asm__("cld\n"					// 清方向位。
 	"negl %%eax\n"				// 否则eax = -eax，返回负值，结束。
 	"3:"
 	:"=a" (__res):"D" (cs),"S" (ct):/* "si","di" */);
+__asm__("":::"esi","edi");
 return __res;				// 返回比较结果。
 }
 
@@ -160,7 +165,9 @@ __asm__("cld\n"					// 清方向位。
 	"jl 4f\n\t"				// 如果前面比较中串2字符<串1字符，则返回1结束。
 	"negl %%eax\n"				// 否则eax = -eax，返回负值，结束。
 	"4:"
-	:"=a" (__res):"D" (cs),"S" (ct),"c" (count):/* "si","di","cx" */);
+	:"=a" (__res):"D" (cs),"S" (ct),"c" (count)
+	:/* "si","di","cx" */);
+__asm__("":::"esi","edi","ecx");
 return __res;					// 返回比较结果。
 }
 
@@ -182,7 +189,9 @@ __asm__("cld\n\t"				// 清方向位。
 	"movl $1,%1\n"				// 是，则说明没有找到匹配字符，esi置1。
 	"2:\tmovl %1,%0\n\t"			// 将指向匹配字符后一个字符处的指针值放入eax
 	"decl %0"				// 将指针调整为指向匹配的字符。
-:"=a" (__res):"S" (s),"0" (c):/* "si" */);
+:"=a" (__res):"S" (s),"0" (c)
+:/* "si" */);
+__asm__("":::"esi");
 return __res;		      			// 返回指针。
 }
 
@@ -202,7 +211,9 @@ __asm__("cld\n\t"				// 清方向位。
 	"decl %0\n"				// 指针后退一位，指向字符串匹配字符处。
 	"2:\ttestb %%al,%%al\n\t"		// 比较的字符是0骊（到字符串尾）？
 	"jne 1b"				// 不是则身后跳转到标号1处，继续比较。
-:"=d" (__res):"0" (0),"S" (s),"a" (c):/* "ax","si" */);
+:"=d" (__res):"0" (0),"S" (s),"a" (c)
+:/* "ax","si" */);
+__asm__("":::"eax","esi");
 return __res;			      		// 返回指针。
 }
 
@@ -232,6 +243,7 @@ __asm__("cld\n\t"				// 清方向位。
 	"2:\tdecl %0"				// esi--，指向最后一个包含在串2中的字符。
 :"=S" (__res):"a" (0),"c" (0xffffffff),"0" (cs),"g" (ct)
 : /* "ax","cx","dx","di" */);
+__asm__("":::"eax","ecx","edx","edi");
 return __res-cs;				// 返回字符序列的长度值。
 }
 
@@ -261,6 +273,7 @@ __asm__("cld\n\t"				// 清方向位。
 	"2:\tdecl %0"				// esi--，指向最后一个包含在串2中的字符。
 :"=S" (__res):"a" (0),"c" (0xffffffff),"0" (cs),"g" (ct)
 :/* "ax","cx","dx","di" */);
+__asm__("":::"eax","ecx","edx","edi");
 return __res-cs;				// 返回字符序列的长度值。
 }
 
@@ -294,6 +307,7 @@ __asm__("cld\n\t"				// 清方向位。
 	"3:"
 :"=S" (__res):"a" (0),"c" (0xffffffff),"0" (cs),"g" (ct)
 :/* "ax","cx","dx","di" */);
+__asm__("":::"eax","ecx","edx","edi");
 return __res;					// 返回指针值。
 }
 
@@ -328,6 +342,7 @@ __asm__("cld\n\t"				// 清方向位。
 	"2:"
 :"=a" (__res):"0" (0),"c" (0xffffffff),"S" (cs),"g" (ct)
 :/* "cx","dx","di","si" */);
+__asm__("":::"ecx","edx","edi","esi");
 return __res;					// 返回比较结果。
 }
 
@@ -344,7 +359,9 @@ __asm__("cld\n\t"				// 清方向位。
         "scasb\n\t"				// 若不相等就一起比较。
         "notl %0\n\t"				// ecx取反。
         "decl %0"				// ecx--，得字符串得长度值。
-        :"=c" (__res):"D" (s),"a" (0),"0" (0xffffffff):/* "di" */);
+        :"=c" (__res):"D" (s),"a" (0),"0" (0xffffffff)
+	:/* "di" */);
+__asm__("":::"edi");
 return __res;					// 返回字符串长度值。
 }
 
@@ -418,6 +435,7 @@ __asm__("testl %1,%1\n\t"			// 首先测试esi（字符串1指针s）是否是NU
 :"=b" (__res),"=S" (___strtok)
 :"0" (___strtok),"1" (s),"g" (ct)
 :/* "ax","cx","dx","di" */);
+__asm__("":::"eax","ecx","edx","edi");
 return __res;					// 返回指向新token的指针。
 }
 
@@ -432,6 +450,7 @@ __asm__("cld\n\t"				// 清方向位。
 	"movsb"					// 从ds:[esi]到es:[edi]，esi++，edi++。
 ::"c" (n),"S" (src),"D" (dest)
 /* :"cx","si","di" */);	
+__asm__("":::"ecx","esi","edi");
 return dest;					// 返回目的地址。
 }
 
@@ -443,18 +462,23 @@ return dest;					// 返回目的地址。
 /* extern inline void * memmove(void * dest, const void * src, int n) */
 inline void * memmove(void * dest, const void * src, int n)
 {
-if (dest < src)					
+if (dest < src){
 __asm__("cld\n\t"				// 清方向位。
 	"rep\n\t"				// 从ds:[esi]到es:[edi]，并且esi++，edi++，
 	"movsb"					// 重复执行复制ecx字节。
 ::"c" (n),"S" (src),"D" (dest)
 :/* "cx","si","di" */);
-else
+__asm__("":::"ecx","esi","edi");
+}
+else {
 __asm__("std\n\t"				// 置方向位，从末端开始复制。
 	"rep\n\t"				// 从ds:[esi]到es:[edi]，并且esi--，edi--。
 	"movsb"					// 复制ecx个字节。
 ::"c" (n),"S" (src+n+1),"D" (dest+n-1)
 :/* "cx","si","di" */);
+__asm__("":::"ecx","esi","edi");
+}
+
 return dest;
 }
 
@@ -476,6 +500,7 @@ __asm__("cld\n\t"
 	"1:"
 :"=a" (__res):"0" (0),"D" (cs),"S" (ct),"c" (count)
 :/* "si","di","cx" */);
+__asm__("":::"esi","edi","ecx");
 return __res;					// 返回比较结果。
 }
 
@@ -497,6 +522,7 @@ __asm__("cld\n\t"			// 清方向位。
 	"1:\tdecl %0"			// 让edi指向找到的字符（或是NULL）。
 :"=D" (__res):"a" (c),"D" (cs),"c" (count)
 :/* "cx" */);
+__asm__("":::"ecx");
 return __res;				// 返回字符指针。
 }
 
@@ -511,6 +537,7 @@ __asm__("cld\n\t"			// 清方向位。
 	"stosb"				// 将al科幻片包图网存入es:[edi]中，并且edi++。
 	::"a" (c),"D" (s),"c" (count)
 	:/* "cx","di" */);	
+__asm__("":::"ecx","edi");
 return s;				// 返回内存块地址。
 }
 
