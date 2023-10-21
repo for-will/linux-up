@@ -190,5 +190,28 @@ free_page_tables(get_base(current->ldt[2]), get_limit(0x17));
 // c34b:   66 8b 92 aa 03 00 00    mov    0x3aa(%edx),%dx
 ```
 两个解决办法:
-* 一个是添加将"=d"改成"=&d","&"指明别的参数不要使用这个寄存器。
+* 一个是添加将`"=d"`改成`"=&d"`，`&`指明别的参数不要使用这个寄存器。
 * 另一个方法是在输入列表中为edx赋一个初始值0，表明edx在输入中也被使用了，gcc在其他地方就不要使用,但这会增加一条无用的赋值语句。
+
+
+### gdb调试命令
+* `p/x $pc` -- 十六进制显示pc寄存器值
+* `info reg eax` -- 显示eax寄存器内容
+* `set disassemble-next-line on` -- 显示汇编代码
+* `disassemble` -- 反汇编
+* `si` -- 单步执行汇编代码
+* `target remote localhost:1234` -- 连接远程调试
+* `layout regs` -- 显示寄存器窗口
+* 文档：[Output formats](https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_54.html)
+
+emacs有gdbmode，有时间再看吧：[GDB 从裸奔到穿戴整齐](http://www.skywind.me/blog/archives/2036)
+
+
+### qemu镜像格式转换
+```sh
+# 从source.vhd转换成destination.qcow2
+qemu-img convert source.vhd -O qcow2 destination.qcow2
+```
+
+### `losetup`命令
+* `sudo losetup -f` - 自动查找空闲的设备
